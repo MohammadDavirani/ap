@@ -1,3 +1,5 @@
+package Exercises_1;
+
 import java.util.Scanner;
 
 import static java.lang.System.exit;
