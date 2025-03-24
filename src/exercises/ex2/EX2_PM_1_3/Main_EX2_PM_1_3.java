@@ -29,8 +29,6 @@ public class Main_EX2_PM_1_3 {
             food = input.nextInt();
         } while(food<1 || food>counterSpace);
 
-
-
         while(food>0) {
 
             int random_i = (int) (Math.random() * number) + 1;
