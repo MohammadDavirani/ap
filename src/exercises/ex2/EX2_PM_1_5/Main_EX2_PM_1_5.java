@@ -2,7 +2,7 @@ package exercises.ex2.EX2_PM_1_5;
 
 import java.util.Scanner;
 
-public class EX2_PM_1_5 {
+public class Main_EX2_PM_1_5 {
     public static void main(String[] args) {
         System.out.print("please enter a number: ");
         Scanner input = new Scanner(System.in);
