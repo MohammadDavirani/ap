@@ -144,7 +144,7 @@ public class Main_EX2_PM_2_2 {
         long timeElapsed = (finish - start)/1000;
 
         System.out.format("Your Total Score = %d\n",score);
-        System.out.format("The  time of the game = %d\n",timeElapsed);
+        System.out.format("The  time of the game = %d s\n",timeElapsed);
 
     }
 }
