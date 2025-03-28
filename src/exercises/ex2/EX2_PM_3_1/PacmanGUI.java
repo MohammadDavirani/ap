@@ -14,6 +14,9 @@ public class PacmanGUI extends JFrame implements KeyListener {
     final int LEFT = 1, RIGHT = 2, TOP = 3, BOTTOM = 4;
     Point dotPoint = new Point();
     static int score;
+    long start;
+    long elapsedTime;
+    boolean Timing = false;
 
     public PacmanGUI() {
         addKeyListener(this);
@@ -24,6 +27,10 @@ public class PacmanGUI extends JFrame implements KeyListener {
 
     @Override
     public void paint(Graphics g) {
+        if (Timing) {
+            elapsedTime = (System.currentTimeMillis() - start) / 1000;
+        }
+
         Graphics2D g2D = (Graphics2D) g;
         g.clearRect(0, 0, width, height);
         logic();
@@ -34,23 +41,49 @@ public class PacmanGUI extends JFrame implements KeyListener {
     }
 
     private void drawPacman(Graphics2D g2d) {
-        g2d.setColor(Color.BLUE);
-        g2d.fillRect(pacmanPoint.x * boxSize, pacmanPoint.y * boxSize, boxSize, boxSize);
+        if(score <3 && elapsedTime <15) {
+            g2d.setColor(Color.BLUE);
+            g2d.fillRect(pacmanPoint.x * boxSize, pacmanPoint.y * boxSize, boxSize, boxSize);
+        }
     }
 
     private void drawDotPoint(Graphics2D g2d) {
-        g2d.setColor(Color.RED);
-        g2d.fillRect(dotPoint.x * boxSize, dotPoint.y * boxSize, boxSize, boxSize);
-        if(pacmanPoint.x ==dotPoint.x && pacmanPoint.y == dotPoint.y) {
-            score++;
-            System.out.println("Score: "+ score);
+        if(score <3 && elapsedTime <15) {
+            g2d.setColor(Color.RED);
+            g2d.fillRect(dotPoint.x * boxSize, dotPoint.y * boxSize, boxSize, boxSize);
+            if(pacmanPoint.x ==dotPoint.x && pacmanPoint.y == dotPoint.y) {
+                score++;
+                System.out.println("Score: "+ score);
+            }
+        }
+        if(score == 3) {
+            g2d.setColor(Color.green);
+            String s = String.format("Game Over.");
+            g2d.drawString(s, 100, 150);
+        }
+        if(elapsedTime == 15) {
+            g2d.setColor(Color.red);
+            String s = String.format("Time is done.");
+            g2d.drawString(s, 100, 150);
+            System.exit(0);
         }
     }
 
     private void drawScore(Graphics2D g2d) {
         g2d.setColor(Color.BLACK);
         String s = String.format("Score: %d",score);
-        g2d.drawString(s, 25, 50);
+        g2d.drawString(s, 150, 50);
+
+        String s2 = String.format("Max Score: 3");
+        g2d.drawString(s2, 25, 50);
+
+        String s3 = String.format("timeElapsed: %ds",elapsedTime);
+        g2d.drawString(s3,150,65);
+
+        String s4 = String.format("Max Time: 15s");
+        g2d.drawString(s4, 25, 65);
+
+
     }
 
     private void logic() {
@@ -101,6 +134,10 @@ public class PacmanGUI extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (!Timing) {
+            start = System.currentTimeMillis();
+            Timing = true;
+        }
         if (e.getKeyCode() == KeyEvent.VK_UP)
             direction = 3;
         else if (e.getKeyCode() == KeyEvent.VK_DOWN)
