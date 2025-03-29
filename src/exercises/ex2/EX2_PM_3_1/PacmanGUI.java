@@ -164,7 +164,20 @@ public class PacmanGUI extends JFrame implements KeyListener {
     }
 
     private void handleCrossBorder() {
+        int maxX_R = (width / boxSize) - 3;
+        int maxY_R = (height / boxSize) - 3;
 
+        if (pacmanPoint.x < 0) {
+            pacmanPoint.x = 2;
+        } else if (pacmanPoint.x > maxX_R) {
+            pacmanPoint.x = maxX_R;
+        }
+
+        if (pacmanPoint.y < 0) {
+            pacmanPoint.y = 2;
+        } else if (pacmanPoint.y > maxY_R) {
+            pacmanPoint.y = maxY_R;
+        }
     }
 
 
