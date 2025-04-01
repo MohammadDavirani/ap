@@ -41,6 +41,26 @@ public class Main_EX3_LM_1_2 {
             input.nextLine();
         }
 
+        writeBook(book);
+
+        writeStudent(student);
+
+        readBook(book);
+
+        readStudent(student);
+
+
+        for(int i = 0; i < 4; i++) {
+            System.out.println("Book " + (i+1) + ": " + book[i].bookName + ", " + book[i].bookAuthor + ", " +
+                    book[i].numberPages + " pages, Published in " + book[i].yearPublication);
+        }
+        for (int i = 0; i < 3; i++) {
+            System.out.println("Student " + (i + 1) + ": " + student[i].studentFirstName + " " +
+                    student[i].studentLastName + ", Field: " + student[i].fieldStudy +
+                    ", ID: " + student[i].studentId);
+        }
+    }
+    public static void writeBook(BookInfo[] book){
         try (FileWriter saveBook = new FileWriter("saveBookInfo.txt")) {
             for (int i = 0; i < 4; i++) {
                 if (book[i] != null) {
@@ -53,7 +73,9 @@ public class Main_EX3_LM_1_2 {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public static void writeStudent(StudentInfo[] student){
         try (FileWriter saveStudent = new FileWriter("saveStudentInfo.txt")) {
             for (int i = 0; i < 3; i++) {
                 if (student[i] != null) {
@@ -66,8 +88,9 @@ public class Main_EX3_LM_1_2 {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-
+    public static void readBook(BookInfo[] book) {
         try (BufferedReader readBook = new BufferedReader(new FileReader("saveBookInfo.txt"))) {
             for (int i = 0; i < 4; i++) {
                 if (book[i] == null) {
@@ -82,7 +105,9 @@ public class Main_EX3_LM_1_2 {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public static void readStudent(StudentInfo[] student) {
         try (BufferedReader readStudent = new BufferedReader(new FileReader("saveStudentInfo.txt"))) {
             for (int i = 0; i < 3; i++) {
                 if (student[i] == null) {
@@ -96,16 +121,6 @@ public class Main_EX3_LM_1_2 {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        for(int i = 0; i < 4; i++) {
-            System.out.println("Book " + (i+1) + ": " + book[i].bookName + ", " + book[i].bookAuthor + ", " +
-                    book[i].numberPages + " pages, Published in " + book[i].yearPublication);
-        }
-        for (int i = 0; i < 3; i++) {
-            System.out.println("Student " + (i + 1) + ": " + student[i].studentFirstName + " " +
-                    student[i].studentLastName + ", Field: " + student[i].fieldStudy +
-                    ", ID: " + student[i].studentId);
         }
     }
 }
