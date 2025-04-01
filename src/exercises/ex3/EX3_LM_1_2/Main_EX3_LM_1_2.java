@@ -42,26 +42,70 @@ public class Main_EX3_LM_1_2 {
         }
 
         try (FileWriter saveBook = new FileWriter("saveBookInfo.txt")) {
-            for(int i=0;i<4;i++) {
-                saveBook.write(book[i].bookName);
-                saveBook.write(book[i].bookAuthor);
-                saveBook.write(book[i].numberPages);
-                saveBook.write(book[i].yearPublication);
+            for (int i = 0; i < 4; i++) {
+                if (book[i] != null) {
+                    saveBook.write(book[i].bookName + "\n");
+                    saveBook.write(book[i].bookAuthor + "\n");
+                    saveBook.write(String.valueOf(book[i].numberPages) + "\n");
+                    saveBook.write(String.valueOf(book[i].yearPublication) + "\n");
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try (FileWriter saveStudent = new FileWriter("saveStudentInfo.txt")) {
-            for(int i=0;i<3;i++) {
-                saveStudent.write(student[i].studentFirstName);
-                saveStudent.write(student[i].studentLastName);
-                saveStudent.write(student[i].fieldStudy);
-                saveStudent.write(student[i].studentId);
+            for (int i = 0; i < 3; i++) {
+                if (student[i] != null) {
+                    saveStudent.write(student[i].studentFirstName + "\n");
+                    saveStudent.write(student[i].studentLastName + "\n");
+                    saveStudent.write(student[i].fieldStudy + "\n");
+                    saveStudent.write(String.valueOf(student[i].studentId) + "\n");
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+
+        try (BufferedReader readBook = new BufferedReader(new FileReader("saveBookInfo.txt"))) {
+            for (int i = 0; i < 4; i++) {
+                if (book[i] == null) {
+                    book[i] = new BookInfo();
+                }
+
+                book[i].bookName = readBook.readLine();
+                book[i].bookAuthor = readBook.readLine();
+                book[i].numberPages = Integer.parseInt(readBook.readLine());
+                book[i].yearPublication = Integer.parseInt(readBook.readLine());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (BufferedReader readStudent = new BufferedReader(new FileReader("saveStudentInfo.txt"))) {
+            for (int i = 0; i < 3; i++) {
+                if (student[i] == null) {
+                    student[i] = new StudentInfo();
+                }
+
+                student[i].studentFirstName = readStudent.readLine();
+                student[i].studentLastName = readStudent.readLine();
+                student[i].fieldStudy = readStudent.readLine();
+                student[i].studentId = Integer.parseInt(readStudent.readLine());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for(int i = 0; i < 4; i++) {
+            System.out.println("Book " + (i+1) + ": " + book[i].bookName + ", " + book[i].bookAuthor + ", " +
+                    book[i].numberPages + " pages, Published in " + book[i].yearPublication);
+        }
+        for (int i = 0; i < 3; i++) {
+            System.out.println("Student " + (i + 1) + ": " + student[i].studentFirstName + " " +
+                    student[i].studentLastName + ", Field: " + student[i].fieldStudy +
+                    ", ID: " + student[i].studentId);
+        }
     }
 }
