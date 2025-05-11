@@ -15,7 +15,7 @@ public class bookLoan {
     LocalDate DueDate;
     LocalDate actualReturn;
     Period laterTime;
-    private int countBookLoan;
+    private int countBookLoan=0;
 
     public int getCountBookLoan() {
         return countBookLoan;

@@ -1,33 +1,38 @@
 package Projects.Library;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Library {
     private String libraryName;
+
     public Library(String libraryName) {
         this.libraryName = libraryName;
     }
-    public Library(){
+
+    public Library() {
 
     }
+
     ArrayList<Book> ArrayBooks = new ArrayList<>();
     ArrayList<Student> ArrayStudents = new ArrayList<>();
     ArrayList<libraryManager> ArrayLibraryManagers = new ArrayList<>();
     ArrayList<bookLoan> ArrayBookLoans = new ArrayList<>();
+    public bookLoan[] mostBooksLoans;
 
     public void setLibraryName(String libraryName) {
         this.libraryName = libraryName;
     }
-    public void addBook(Book book){
+    public void addBook(Book book) {
         this.ArrayBooks.add(book);
     }
-    public void addStudent(Student student){
+    public void addStudent(Student student) {
         this.ArrayStudents.add(student);
     }
-    public void addManager(libraryManager manager){
+    public void addManager(libraryManager manager) {
         this.ArrayLibraryManagers.add(manager);
     }
-    public void addLoan(bookLoan bookloan){
+    public void addLoan(bookLoan bookloan) {
         this.ArrayBookLoans.add(bookloan);
     }
 
@@ -44,11 +49,11 @@ public class Library {
         return ArrayBookLoans;
     }
 
-    public void searchBook(String title,String author){
+    public void searchBook(String title, String author) {
         boolean found = false;
-        for(int i=0;i<ArrayBooks.size();i++){
+        for (int i = 0; i < ArrayBooks.size(); i++) {
             Book book = ArrayBooks.get(i);
-            if(book.getTitle().equalsIgnoreCase(title) && book.getAuthor().equalsIgnoreCase(author)){
+            if (book.getTitle().equalsIgnoreCase(title) && book.getAuthor().equalsIgnoreCase(author)) {
                 System.out.println("Book found:");
                 System.out.println(book);
                 found = true;
@@ -57,6 +62,77 @@ public class Library {
         }
         if (!found) {
             System.out.println("Book not found in library.");
+        }
+    }
+
+    public void countBooksLoans(Library library){
+        ArrayList<libraryManager> managers = new ArrayList<>();
+        ArrayList<Integer> managerLoanCounts = new ArrayList<>();
+
+        for (int i = 0; i < library.getArrayBookLoans().size(); i++) {
+            bookLoan loan = library.getArrayBookLoans().get(i);
+            libraryManager manager = loan.getGiverManager();
+            if(managers.contains(manager)){
+                int index = managers.indexOf(manager);
+                managerLoanCounts.set(index, managerLoanCounts.get(index) + 1);
+            }
+            else{
+                managers.add(manager);
+                managerLoanCounts.add(1);
+            }
+        }
+        for (int i = 0; i < managers.size(); i++) {
+            libraryManager manager = managers.get(i);
+            int count = managerLoanCounts.get(i);
+            System.out.println("Manager: " + manager.getFirstName() + " " + manager.getLastName() +
+                    " (ID: " + manager.getUserId() + ") -> Loans count: " + count);
+        }
+
+
+    }
+
+    public void top10BooksLastYear(Library library) {
+        ArrayList<Book> books = new ArrayList<>();
+        ArrayList<Integer> counts = new ArrayList<>();
+
+        LocalDate oneYearAgo = LocalDate.now().minusYears(1);
+
+        for (int i = 0; i < library.getArrayBookLoans().size(); i++) {
+            bookLoan loan = library.getArrayBookLoans().get(i);
+            if (loan.getBorrowDate().isAfter(oneYearAgo)) {
+                Book book = loan.getBookLoan();
+                boolean found = false;
+                for (int j = 0; j < books.size(); j++) {
+                    if (books.get(j).equals(book)) {
+                        counts.set(j, counts.get(j) + 1);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    books.add(book);
+                    counts.add(1);
+                }
+            }
+        }
+
+        for (int i = 0; i < counts.size() - 1; i++) {
+            for (int j = i + 1; j < counts.size(); j++) {
+                if (counts.get(j) > counts.get(i)) {
+                    int tempCount = counts.get(i);
+                    counts.set(i, counts.get(j));
+                    counts.set(j, tempCount);
+
+                    Book tempBook = books.get(i);
+                    books.set(i, books.get(j));
+                    books.set(j, tempBook);
+                }
+            }
+        }
+
+        int limit = Math.min(10, books.size());
+        for (int i = 0; i < limit; i++) {
+            System.out.println((i + 1) + ". " + books.get(i).getTitle() + " - Borrowed " + counts.get(i) + " times");
         }
     }
 

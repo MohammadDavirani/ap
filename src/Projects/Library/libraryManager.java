@@ -3,12 +3,23 @@ package Projects.Library;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class libraryManager {
     private String firstName;
     private String lastName;
     private int userId;
+
+    public String getFirstName() {
+        return firstName;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public int getUserId() {
+        return userId;
+    }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -18,14 +29,6 @@ public class libraryManager {
     }
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public void searchingBook(){
-
-    }
-
-    public void BookDelivery(){
-
     }
 
     public static libraryManager getRandomManager(){
@@ -49,6 +52,7 @@ public class libraryManager {
         loan.setGiverManager(randomManager);
         loan.setBorrowDate(LocalDate.now());
         loan.setDueDate(LocalDate.now().plusDays(20));
+        loan.setCountBookLoan(loan.getCountBookLoan() + 1);
 
         library.addLoan(loan);
 
