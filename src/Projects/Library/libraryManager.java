@@ -1,6 +1,6 @@
 package Projects.Library;
 
-public class LibraryManager {
+public class libraryManager {
     private String firstName;
     private String lastName;
     private int userId;

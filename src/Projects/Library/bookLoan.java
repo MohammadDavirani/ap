@@ -3,8 +3,8 @@ package Projects.Library;
 public class bookLoan {
     Book bookLoan;
     Student student;
-    LibraryManager giverManager;
-    LibraryManager receiverManager;
+    libraryManager giverManager;
+    libraryManager receiverManager;
 
     int loanMonth,loanDay;
     int returnMonth,returnDay;
@@ -16,10 +16,10 @@ public class bookLoan {
     public void setStudentBookLoan(Student student) {
         this.student = student;
     }
-    public void setGiverManager(LibraryManager giverManager) {
+    public void setGiverManager(libraryManager giverManager) {
         this.giverManager = giverManager;
     }
-    public void setReceiverManager(LibraryManager receiverManager) {
+    public void setReceiverManager(libraryManager receiverManager) {
         this.receiverManager = receiverManager;
     }
     public void setLoanDate(int Month,int day) {

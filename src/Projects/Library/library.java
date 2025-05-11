@@ -2,12 +2,12 @@ package Projects.Library;
 
 import java.util.ArrayList;
 
-public class Library {
+public class library {
     private String libraryName;
 
     ArrayList<Book> books = new ArrayList<>();
     ArrayList<Student> students = new ArrayList<>();
-    ArrayList<LibraryManager> libraryManagers = new ArrayList<>();
+    ArrayList<libraryManager> libraryManagers = new ArrayList<>();
     ArrayList<bookLoan> bookLoans = new ArrayList<>();
 
     public void setLibraryName(String libraryName) {
@@ -19,7 +19,7 @@ public class Library {
     public void addStudent(Student student){
         this.students.add(student);
     }
-    public void addManager(LibraryManager manager){
+    public void addManager(libraryManager manager){
         this.libraryManagers.add(manager);
     }
     public void addLoan(bookLoan bookloan){
@@ -32,7 +32,7 @@ public class Library {
     public ArrayList<Student> getStudents() {
         return students;
     }
-    public ArrayList<LibraryManager> getLibraryManagers() {
+    public ArrayList<libraryManager> getLibraryManagers() {
         return libraryManagers;
     }
     public ArrayList<bookLoan> getBookLoans() {
