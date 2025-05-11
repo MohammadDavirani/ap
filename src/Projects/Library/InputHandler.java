@@ -9,6 +9,8 @@ public class InputHandler {
         Scanner input = new Scanner(System.in);
         Book book = new Book();
 
+        System.out.println("<<book section>>");
+
         System.out.println("Title: ");
         book.setTitle(input.nextLine());
         System.out.println("Author: ");
@@ -28,6 +30,8 @@ public class InputHandler {
     public static Student getStudentInfoFromUser(){
         Scanner input = new Scanner(System.in);
         Student student = new Student();
+
+        System.out.println("<<student section>>");
 
         System.out.println("firstName: ");
         student.setFirstName(input.nextLine());
@@ -51,6 +55,8 @@ public class InputHandler {
         Scanner input = new Scanner(System.in);
         libraryManager manager = new libraryManager();
 
+        System.out.println("<<manager section>>");
+
         System.out.println("firstName: ");
         manager.setFirstName(input.nextLine());
 
@@ -71,6 +77,8 @@ public class InputHandler {
     public static libraryAdmin getLibraryAdminInfoFromUser(){
         Scanner input = new Scanner(System.in);
         libraryAdmin admin = new libraryAdmin();
+
+        System.out.println("<<admin section>>");
 
         System.out.println("firstName: ");
         admin.setFirstName(input.nextLine());

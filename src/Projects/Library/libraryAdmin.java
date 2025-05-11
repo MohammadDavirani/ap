@@ -25,7 +25,22 @@ public class libraryAdmin {
 
     }
 
-    public void addBookToLibrary(library lib, Book book){
+    public void addBookToLibrary(Library lib, Book book){
         lib.addBook(book);
     }
+
+    public static void listOfBooksBorrowed(Library library){
+        if (library.getArrayBookLoans().isEmpty()) {
+            System.out.println("No books have been borrowed.");
+            return;
+        }
+        for(int i=0;i<library.getArrayBookLoans().size();i++){
+            bookLoan bookLoan = library.getArrayBookLoans().get(i);
+            int daysLater = bookLoan.laterTime.getDays();
+            if(daysLater>0){
+                System.out.println(bookLoan);
+            }
+        }
+    }
+
 }

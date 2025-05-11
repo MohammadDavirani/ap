@@ -1,15 +1,13 @@
 package Projects.Library;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class library {
+public class Library {
     private String libraryName;
-    public library(String libraryName) {
+    public Library(String libraryName) {
         this.libraryName = libraryName;
     }
-    public library(){
+    public Library(){
 
     }
     ArrayList<Book> ArrayBooks = new ArrayList<>();
@@ -46,34 +44,19 @@ public class library {
         return ArrayBookLoans;
     }
 
+    public void searchBook(String title,String author){
+        boolean found = false;
+        for(int i=0;i<ArrayBooks.size();i++){
+            Book book = ArrayBooks.get(i);
+            if(book.getTitle().equalsIgnoreCase(title) && book.getAuthor().equalsIgnoreCase(author)){
+                System.out.println("Book found:");
+                System.out.println(book);
+                found = true;
 
-    public void borrowBook(Student student,Book book){
-        if(!book.isToExist()) {
-            System.out.println("is not exist!");
-            return;
-        }
-
-        libraryManager randomManager=libraryManager.getRandomManager();
-
-        bookLoan loan = new bookLoan();
-        loan.setBookLoan(book);
-        loan.setStudentBookLoan(student);
-        loan.setGiverManager(randomManager);
-        loan.setBorrowDate(LocalDate.now());
-        loan.setDueDate(LocalDate.now().plusDays(20));
-
-        addLoan(loan);
-
-        book.setToExist(false);
-
-    }
-    public void returnBook(Student student,Book book){
-        for(int i=0;i< this.getArrayBookLoans().size();i++){
-            bookLoan loan = this.getArrayBookLoans().get(i);
-
-            if (loan.getBookLoan().equals(book) && loan.getStudent().equals(student)) {
-                loan.getBookLoan().setToExist(true);
             }
+        }
+        if (!found) {
+            System.out.println("Book not found in library.");
         }
     }
 

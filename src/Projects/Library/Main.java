@@ -1,11 +1,8 @@
 package Projects.Library;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 public class Main {
     public static void main(String[] args) {
-        library library = new library("University of zanjan");
+        Library library = new Library("University of zanjan");
 
         libraryAdmin admin = InputHandler.getLibraryAdminInfoFromUser();
 
@@ -20,8 +17,6 @@ public class Main {
         Book book = InputHandler.getBookInfoFromUser();
 
         admin.addBookToLibrary(library,book);
-
-
 
     }
 }

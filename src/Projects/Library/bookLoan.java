@@ -1,6 +1,7 @@
 package Projects.Library;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 
 public class bookLoan {
@@ -10,39 +11,46 @@ public class bookLoan {
     libraryManager receiverManager;
 
     LocalDate BorrowDate;
+
     LocalDate DueDate;
-    int actualReturnMonth , actualReturnDay;
+    LocalDate actualReturn;
+    Period laterTime;
+    private int countBookLoan;
+
+    public int getCountBookLoan() {
+        return countBookLoan;
+    }
+    public void setCountBookLoan(int countBookLoan) {
+        this.countBookLoan = countBookLoan;
+    }
+
+    public Period getLaterTime() {
+        return laterTime;
+    }
+    public void setLaterTime(Period laterTime) {
+        this.laterTime = laterTime;
+    }
 
     public Book getBookLoan() {
         return bookLoan;
     }
-
     public Student getStudent() {
         return student;
     }
-
     public libraryManager getGiverManager() {
         return giverManager;
     }
-
     public libraryManager getReceiverManager() {
         return receiverManager;
     }
-
     public LocalDate getBorrowDate() {
         return BorrowDate;
     }
-
     public LocalDate getDueDate() {
         return DueDate;
     }
-
-    public int getActualReturnMonth() {
-        return actualReturnMonth;
-    }
-
-    public int getActualReturnDay() {
-        return actualReturnDay;
+    public LocalDate getActualReturn() {
+        return actualReturn;
     }
 
     public void setBookLoan(Book bookLoan) {
@@ -63,9 +71,8 @@ public class bookLoan {
     public void setDueDate(LocalDate date) {
         this.DueDate = date;
     }
-    public void setActualReturnMonth(int Month,int day) {
-        this.actualReturnMonth = Month;
-        this.actualReturnDay = day;
+    public void setActualReturn(LocalDate actual) {
+        this.actualReturn = actual;
     }
 
     @Override
@@ -77,8 +84,7 @@ public class bookLoan {
                 ", receiverManager=" + receiverManager +
                 ", BorrowDate=" + BorrowDate +
                 ", DueDate=" + DueDate +
-                ", actualReturnMonth=" + actualReturnMonth +
-                ", actualReturnDay=" + actualReturnDay +
+                ", actualReturn=" + actualReturn +
                 '}';
     }
 }
