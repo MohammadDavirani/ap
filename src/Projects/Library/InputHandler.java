@@ -68,5 +68,20 @@ public class InputHandler {
 
     }
 
+    public static libraryAdmin getLibraryAdminInfoFromUser(){
+        Scanner input = new Scanner(System.in);
+        libraryAdmin admin = new libraryAdmin();
+
+        System.out.println("firstName: ");
+        admin.setFirstName(input.nextLine());
+
+        System.out.println("lastName: ");
+        admin.setLastName(input.nextLine());
+
+        System.out.println("educationLevel: ");
+        admin.setEducationLevel(input.nextLine());
+
+        return admin;
+    }
 
 }

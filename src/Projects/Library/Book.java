@@ -5,7 +5,7 @@ public class Book {
     private String author;
     private int pageCount;
     private int yearPublished;
-    private boolean toExist;
+    private boolean toExist= true;
 
     public String getTitle() {
         return title;
@@ -38,4 +38,5 @@ public class Book {
     public void setToExist(boolean toExist) {
         this.toExist = toExist;
     }
+
 }

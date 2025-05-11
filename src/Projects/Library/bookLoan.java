@@ -1,14 +1,49 @@
 package Projects.Library;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 public class bookLoan {
     Book bookLoan;
     Student student;
     libraryManager giverManager;
     libraryManager receiverManager;
 
-    int loanMonth,loanDay;
-    int returnMonth,returnDay;
+    LocalDate BorrowDate;
+    LocalDate DueDate;
     int actualReturnMonth , actualReturnDay;
+
+    public Book getBookLoan() {
+        return bookLoan;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public libraryManager getGiverManager() {
+        return giverManager;
+    }
+
+    public libraryManager getReceiverManager() {
+        return receiverManager;
+    }
+
+    public LocalDate getBorrowDate() {
+        return BorrowDate;
+    }
+
+    public LocalDate getDueDate() {
+        return DueDate;
+    }
+
+    public int getActualReturnMonth() {
+        return actualReturnMonth;
+    }
+
+    public int getActualReturnDay() {
+        return actualReturnDay;
+    }
 
     public void setBookLoan(Book bookLoan) {
         this.bookLoan = bookLoan;
@@ -22,13 +57,11 @@ public class bookLoan {
     public void setReceiverManager(libraryManager receiverManager) {
         this.receiverManager = receiverManager;
     }
-    public void setLoanDate(int Month,int day) {
-        this.loanMonth = Month;
-        this.loanDay = day;
+    public void setBorrowDate(LocalDate date) {
+        this.BorrowDate = date;
     }
-    public void setExpectedReturnDate(int Month,int day) {
-        this.returnMonth = Month;
-        this.returnDay = day;
+    public void setDueDate(LocalDate date) {
+        this.DueDate = date;
     }
     public void setActualReturnMonth(int Month,int day) {
         this.actualReturnMonth = Month;
@@ -42,10 +75,8 @@ public class bookLoan {
                 ", student=" + student +
                 ", giverManager=" + giverManager +
                 ", receiverManager=" + receiverManager +
-                ", loanMonth=" + loanMonth +
-                ", loanDay=" + loanDay +
-                ", returnMonth=" + returnMonth +
-                ", returnDay=" + returnDay +
+                ", BorrowDate=" + BorrowDate +
+                ", DueDate=" + DueDate +
                 ", actualReturnMonth=" + actualReturnMonth +
                 ", actualReturnDay=" + actualReturnDay +
                 '}';
