@@ -1,11 +1,13 @@
 package Projects.Library;
 
+import java.time.LocalDate;
+
 public class Student {
     private String firstName;
     private String lastName;
     private String major;
     private int studentId;
-    private int memberShipDate;
+    private LocalDate memberShipDate;
 
     public String getFirstName() {
         return firstName;
@@ -19,7 +21,7 @@ public class Student {
     public int getStudentId() {
         return studentId;
     }
-    public int getMemberShipDate() {
+    public LocalDate getMemberShipDate() {
         return memberShipDate;
     }
 
@@ -35,7 +37,7 @@ public class Student {
     public void setStudentId(int studentId) {
         this.studentId = studentId;
     }
-    public void setMemberShipDate(int memberShipDate) {
+    public void setMemberShipDate(LocalDate memberShipDate) {
         this.memberShipDate = memberShipDate;
     }
 }

@@ -1,5 +1,9 @@
 package Projects.Library;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Main {
     public static void main(String[] args) {
         library library = new library();
@@ -8,20 +12,23 @@ public class Main {
         libraryAdmin admin = new libraryAdmin();
         admin.setFirstName("mohammad");
         admin.setLastName("dabiri");
-        admin.setEducationLevel("کارشناسی ارشد");
+        admin.setEducationLevel("Master");
 
-        libraryManager manager1 = new libraryManager();
-        manager1.setFirstName("mahdi");
-        manager1.setLastName("davirani");
-        manager1.setUserId(99);
-
-        libraryManager manager2 = new libraryManager();
-        manager2.setFirstName("amir");
-        manager2.setLastName("moradi");
-        manager2.setUserId(98);
-
+        libraryManager manager1 = InputHandler.getManagerInfoFromUser();
+        libraryManager manager2 = InputHandler.getManagerInfoFromUser();
         library.addManager(manager1);
         library.addManager(manager2);
 
+
+        Student student = InputHandler.getStudentInfoFromUser();
+        library.addStudent(student);
+
+        Book book = InputHandler.getBookInfoFromUser();
+
+        admin.addBookToLibrary(library,book);
+
+        Random random = new Random();
+        ArrayList<libraryManager> managers = library.getArrayLibraryManagers();
+        libraryManager randomManager = managers.get(random.nextInt(managers.size()));
     }
 }

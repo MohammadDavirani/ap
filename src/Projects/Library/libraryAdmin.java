@@ -15,13 +15,17 @@ public class libraryAdmin {
         this.educationLevel = educationLevel;
     }
 
-    public static void getOverdueLoans(){
+    public static void getOverdueLoans() {
 
     }
-    public static void getLoanStatsPerManager(){
+    public static void getLoanStatsPerManager() {
 
     }
-    public static void getTop10LoanedBooks(){
+    public static void getTop10LoanedBooks() {
 
+    }
+
+    public void addBookToLibrary(library lib, Book book){
+        lib.addBook(book);
     }
 }

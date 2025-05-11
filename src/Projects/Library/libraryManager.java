@@ -15,15 +15,15 @@ public class libraryManager {
         this.userId = userId;
     }
 
-    public static void searchingBook(){
+    public void searchingBook(){
 
     }
 
-    public static void LendingBooks(){
+    public void LendingBooks(){
 
     }
 
-    public static void BookDelivery(){
+    public void BookDelivery(){
 
     }
 }
