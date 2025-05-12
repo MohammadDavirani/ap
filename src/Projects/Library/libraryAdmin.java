@@ -19,7 +19,7 @@ public class libraryAdmin {
         lib.addBook(book);
     }
 
-    public static void listOfBooksBorrowed(Library library){
+    public void listOfBooksBorrowed(Library library){
         if (library.getArrayBookLoans().isEmpty()) {
             System.out.println("No books have been borrowed.");
             return;
@@ -34,5 +34,12 @@ public class libraryAdmin {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "libraryAdmin{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", educationLevel='" + educationLevel + '\'' +
+                '}';
+    }
 }

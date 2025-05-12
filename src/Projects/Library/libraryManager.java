@@ -80,4 +80,12 @@ public class libraryManager {
         }
     }
 
+    @Override
+    public String toString() {
+        return "libraryManager{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
 }

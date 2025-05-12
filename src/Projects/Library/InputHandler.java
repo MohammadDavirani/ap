@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class InputHandler {
 
-    public static Book getBookInfoFromUser(){
+    public  Book getBookInfoFromUser(){
         Scanner input = new Scanner(System.in);
         Book book = new Book();
 
@@ -27,7 +27,7 @@ public class InputHandler {
 
     }
 
-    public static Student getStudentInfoFromUser(){
+    public  Student getStudentInfoFromUser(){
         Scanner input = new Scanner(System.in);
         Student student = new Student();
 
@@ -51,7 +51,7 @@ public class InputHandler {
         return student;
     }
 
-    public static libraryManager getManagerInfoFromUser(){
+    public  libraryManager getManagerInfoFromUser(){
         Scanner input = new Scanner(System.in);
         libraryManager manager = new libraryManager();
 
@@ -70,11 +70,7 @@ public class InputHandler {
         return manager;
     }
 
-    public static void getLoanInfoFromUser(){
-
-    }
-
-    public static libraryAdmin getLibraryAdminInfoFromUser(){
+    public libraryAdmin getLibraryAdminInfoFromUser(){
         Scanner input = new Scanner(System.in);
         libraryAdmin admin = new libraryAdmin();
 

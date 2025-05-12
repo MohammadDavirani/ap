@@ -7,6 +7,18 @@ public class Student {
     private String lastName;
     private String major;
     private int studentId;
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", major='" + major + '\'' +
+                ", studentId=" + studentId +
+                ", memberShipDate=" + memberShipDate +
+                '}';
+    }
+
     private LocalDate memberShipDate;
 
     public String getFirstName() {

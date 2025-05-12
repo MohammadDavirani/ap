@@ -39,4 +39,14 @@ public class Book {
         this.toExist = toExist;
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", pageCount=" + pageCount +
+                ", yearPublished=" + yearPublished +
+                ", toExist=" + toExist +
+                '}';
+    }
 }
