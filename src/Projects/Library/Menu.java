@@ -46,7 +46,6 @@ public class Menu {
         }while(choose ==4);
 
     }
-
     public void showAdminMenu(){
         System.out.println("\n----- Admin Menu -----");
         System.out.println("1. Add new book");

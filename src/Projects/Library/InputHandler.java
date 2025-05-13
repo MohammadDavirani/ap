@@ -17,10 +17,8 @@ public class InputHandler {
         book.setAuthor(input.nextLine());
         System.out.println("pageCount");
         book.setPageCount(input.nextInt());
-        input.nextInt();
         System.out.println("yearPublished");
         book.setYearPublished(input.nextInt());
-        input.nextInt();
         System.out.println("Exist");
         book.setToExist(true);
         return book;

@@ -275,8 +275,5 @@ public class FileStorageHandler {
         return loan;
     }
 
-    public void exportReports(){
-
-    }
 
 }
