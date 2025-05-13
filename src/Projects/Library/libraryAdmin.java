@@ -25,10 +25,22 @@ public class libraryAdmin {
             return;
         }
         for(int i=0;i<library.getArrayBookLoans().size();i++){
-            bookLoan bookLoan = library.getArrayBookLoans().get(i);
-            int daysLater = bookLoan.laterTime.getDays();
-            if(daysLater>0){
-                System.out.println(bookLoan);
+            bookLoan loan = library.getArrayBookLoans().get(i);
+            int daysLater = loan.laterTime.getDays();
+            int monthLater = loan.laterTime.getMonths();
+            int yearLater = loan.laterTime.getYears();
+            boolean temp = false;
+            if(daysLater>0 || monthLater>0 || yearLater >0){
+                System.out.println("Book: " + loan.getBookLoan().getTitle());
+                System.out.println("Borrowed by: " + loan.getStudent().getFirstName() + " " + loan.getStudent().getLastName());
+                System.out.println("Due Date: " + loan.getDueDate());
+                System.out.println("Actual Return: " + loan.getActualReturn());
+                System.out.println("Days Late: " + loan.laterTime.getDays() + " days\n");
+                temp =true;
+            }
+
+            if(!temp){
+                System.out.println("No overdue books found.");
             }
         }
     }
