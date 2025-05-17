@@ -2,9 +2,8 @@ package Projects.Library;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
 
-public class bookLoan {
+public class BookLoan {
     Book bookLoan;
     Student student;
     libraryManager giverManager;
@@ -15,13 +14,16 @@ public class bookLoan {
     LocalDate DueDate;
     LocalDate actualReturn;
     Period laterTime;
-    private int countBookLoan=0;
+    private int totalLoanCount =0;
 
-    public int getCountBookLoan() {
-        return countBookLoan;
+    public void setCountLoan(int count) {
+        this.totalLoanCount = count;
     }
-    public void setCountBookLoan(int countBookLoan) {
-        this.countBookLoan = countBookLoan;
+    public int getTotalLoanCount() {
+        return totalLoanCount;
+    }
+    public void incrementLoanCount() {
+        this.totalLoanCount++;
     }
 
     public Period getLaterTime() {

@@ -12,14 +12,17 @@ public class InputHandler {
         System.out.println("<<book section>>");
 
         System.out.println("Title: ");
-        book.setTitle(input.nextLine());
+        String title = input.nextLine();
+        book.setTitle(title);
         System.out.println("Author: ");
-        book.setAuthor(input.nextLine());
-        System.out.println("pageCount");
-        book.setPageCount(input.nextInt());
-        System.out.println("yearPublished");
-        book.setYearPublished(input.nextInt());
-        System.out.println("Exist");
+        String author = input.nextLine();
+        book.setAuthor(author);
+        System.out.println("pageCount: ");
+        int pageCount = input.nextInt();
+        book.setPageCount(pageCount);
+        System.out.println("yearPublished: ");
+        int yearPublished = input.nextInt();
+        book.setYearPublished(yearPublished);
         book.setToExist(true);
         return book;
 
@@ -62,13 +65,13 @@ public class InputHandler {
         manager.setLastName(input.nextLine());
 
         System.out.println("User Id: ");
-        manager.setUserId(input.nextInt());
+        manager.setUserId(input.nextLong());
         input.nextLine();
 
         return manager;
     }
 
-    public libraryAdmin getLibraryAdminInfoFromUser(){
+    public void getLibraryAdminInfoFromUser(){
         Scanner input = new Scanner(System.in);
         libraryAdmin admin = new libraryAdmin();
 
@@ -83,7 +86,10 @@ public class InputHandler {
         System.out.println("educationLevel: ");
         admin.setEducationLevel(input.nextLine());
 
-        return admin;
+        System.out.println("userId:");
+        admin.setUserId(input.nextInt());
+
     }
+
 
 }

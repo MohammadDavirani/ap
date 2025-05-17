@@ -3,13 +3,12 @@ package Projects.Library;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
 
 public class libraryManager {
     private String firstName;
     private String lastName;
-    private int userId;
+    private long userId;
 
     public String getFirstName() {
         return firstName;
@@ -17,7 +16,7 @@ public class libraryManager {
     public String getLastName() {
         return lastName;
     }
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
@@ -27,43 +26,46 @@ public class libraryManager {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public static libraryManager getRandomManager(){
-        Library library = new Library();
+    public libraryManager getRandomManager(Library library){
         Random random = new Random();
         ArrayList<libraryManager> managers = library.getArrayLibraryManagers();
-        libraryManager randomManager = managers.get(random.nextInt(managers.size()));
-        return randomManager;
+        if (managers.isEmpty()) {
+            System.out.println("No managers available.");
+            return null;
+        }
+        return managers.get(random.nextInt(managers.size()));
     }
+
     public void borrowBook(Library library, Student student, Book book){
         if(!book.isToExist()) {
             System.out.println("is not exist!");
             return;
         }
 
-        libraryManager randomManager= libraryManager.getRandomManager();
+        libraryManager randomManager= getRandomManager(library);
 
-        bookLoan loan = new bookLoan();
+        BookLoan loan = new BookLoan();
         loan.setBookLoan(book);
         loan.setStudentBookLoan(student);
         loan.setGiverManager(randomManager);
         loan.setBorrowDate(LocalDate.now());
         loan.setDueDate(LocalDate.now().plusDays(20));
-        loan.setCountBookLoan(loan.getCountBookLoan() + 1);
+        loan.incrementLoanCount();
 
         library.addLoan(loan);
 
         book.setToExist(false);
 
     }
-    public void returnBook(Library library , Student student, Book book){
-        libraryManager randomManager= libraryManager.getRandomManager();
+    public void returnBook(Library library , Student student, Book book)    {
+        libraryManager randomManager= getRandomManager(library);
 
         for(int i=0;i< library.getArrayBookLoans().size();i++){
-            bookLoan loan = library.getArrayBookLoans().get(i);
+            BookLoan loan = library.getArrayBookLoans().get(i);
 
             if (loan.getBookLoan().equals(book) && loan.getStudent().equals(student)) {
                 loan.getBookLoan().setToExist(true);
@@ -74,10 +76,8 @@ public class libraryManager {
                 System.out.println("Book returned successfully.");
                 return;
             }
-            else{
-                System.out.println("No matching loan record found.");
-            }
         }
+        System.out.println("No matching loan record found.");
     }
 
 

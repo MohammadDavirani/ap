@@ -17,8 +17,8 @@ public class Library {
     ArrayList<Book> ArrayBooks = new ArrayList<>();
     ArrayList<Student> ArrayStudents = new ArrayList<>();
     ArrayList<libraryManager> ArrayLibraryManagers = new ArrayList<>();
-    ArrayList<bookLoan> ArrayBookLoans = new ArrayList<>();
-    public bookLoan[] mostBooksLoans;
+    ArrayList<BookLoan> ArrayBookLoans = new ArrayList<>();
+    public BookLoan[] mostBooksLoans;
 
     public void setLibraryName(String libraryName) {
         this.libraryName = libraryName;
@@ -32,7 +32,7 @@ public class Library {
     public void addManager(libraryManager manager) {
         this.ArrayLibraryManagers.add(manager);
     }
-    public void addLoan(bookLoan bookloan) {
+    public void addLoan(BookLoan bookloan) {
         this.ArrayBookLoans.add(bookloan);
     }
 
@@ -45,7 +45,7 @@ public class Library {
     public ArrayList<libraryManager> getArrayLibraryManagers() {
         return ArrayLibraryManagers;
     }
-    public ArrayList<bookLoan> getArrayBookLoans() {
+    public ArrayList<BookLoan> getArrayBookLoans() {
         return ArrayBookLoans;
     }
 
@@ -53,7 +53,10 @@ public class Library {
         boolean found = false;
         for (int i = 0; i < ArrayBooks.size(); i++) {
             Book book = ArrayBooks.get(i);
-            if (book.getTitle().equalsIgnoreCase(title) && book.getAuthor().equalsIgnoreCase(author)) {
+            if (
+                    (title.isEmpty() || book.getTitle().toLowerCase().contains(title.toLowerCase())) &&
+                    (author.isEmpty() || book.getAuthor().toLowerCase().contains(author.toLowerCase()))
+            ) {
                 System.out.println("Book found:");
                 System.out.println(book);
                 found = true;
@@ -65,12 +68,12 @@ public class Library {
         }
     }
 
-    public void countBooksLoans(Library library){
+    public void countBooksLoans(){
         ArrayList<libraryManager> managers = new ArrayList<>();
         ArrayList<Integer> managerLoanCounts = new ArrayList<>();
 
-        for (int i = 0; i < library.getArrayBookLoans().size(); i++) {
-            bookLoan loan = library.getArrayBookLoans().get(i);
+        for (int i = 0; i < getArrayBookLoans().size(); i++) {
+            BookLoan loan = getArrayBookLoans().get(i);
             libraryManager manager = loan.getGiverManager();
             if(managers.contains(manager)){
                 int index = managers.indexOf(manager);
@@ -91,14 +94,14 @@ public class Library {
 
     }
 
-    public void top10BooksLastYear(Library library) {
+    public void top10BooksLastYear() {
         ArrayList<Book> books = new ArrayList<>();
         ArrayList<Integer> counts = new ArrayList<>();
 
         LocalDate oneYearAgo = LocalDate.now().minusYears(1);
 
-        for (int i = 0; i < library.getArrayBookLoans().size(); i++) {
-            bookLoan loan = library.getArrayBookLoans().get(i);
+        for (int i = 0; i < getArrayBookLoans().size(); i++) {
+            BookLoan loan = getArrayBookLoans().get(i);
             if (loan.getBorrowDate().isAfter(oneYearAgo)) {
                 Book book = loan.getBookLoan();
                 boolean found = false;

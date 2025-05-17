@@ -8,7 +8,8 @@ import java.time.Period;
 import java.util.Scanner;
 
 public class FileStorageHandler {
-    public void saveLibraryData(Library library){
+    public void saveLibraryData(Library library , libraryAdmin admin){
+
         try{
             FileWriter writer = new FileWriter("Books.txt");
             for(int i=0;i<library.getArrayBooks().size();i++){
@@ -66,7 +67,7 @@ public class FileStorageHandler {
         try{
             FileWriter writer = new FileWriter("BookLoans.txt");
             for(int i=0;i<library.getArrayBookLoans().size();i++){
-                bookLoan loan = library.getArrayBookLoans().get(i);
+                BookLoan loan = library.getArrayBookLoans().get(i);
                 writer.write(
                         loan.getBookLoan().getTitle()+","+
                         loan.getBookLoan().getAuthor()+","+
@@ -87,7 +88,7 @@ public class FileStorageHandler {
                         loan.getDueDate()+","+
                         loan.getActualReturn()+","+
                         loan.getLaterTime().toString()+","+
-                        loan.getCountBookLoan()+"\n"
+                        loan.getTotalLoanCount()+"\n"
                 );
             }
             writer.close();
@@ -110,9 +111,24 @@ public class FileStorageHandler {
             System.out.println("Error: "+e.getMessage());
         }
 
+        try{
+            FileWriter writer = new FileWriter("Admin.txt");
+            writer.write(
+                        admin.getFirstName()+","+
+                            admin.getLastName()+","+
+                            admin.getEducationLevel()+","+
+                            admin.getUserId()
+            );
+            writer.close();
+            System.out.println("Write Admin to file Successful");
+        }catch(IOException e)
+        {
+            System.out.println("Error: "+e.getMessage());
+        }
+
     }
 
-    public void loadLibraryData(Library library){
+    public void loadLibraryData(Library library,libraryAdmin admin){
         int sizeOfBooksArray = 0,sizeOfStudentArray = 0,sizeOfLibraryManagerArray = 0,sizeOfBookLoansArray = 0;
         try{
             Scanner scan = new Scanner(new FileReader("SizeOfArray.txt"));
@@ -170,7 +186,7 @@ public class FileStorageHandler {
             Scanner scan = new Scanner(new FileReader("BookLoans.txt"));
             for (int i = 0; i < sizeOfBookLoansArray; i++) {
                 String line = scan.nextLine();
-                bookLoan loan = getBookLoan(line);
+                BookLoan loan = getBookLoan(line);
                 library.addLoan(loan);
             }
             scan.close();
@@ -178,10 +194,26 @@ public class FileStorageHandler {
         }catch(IOException e) {
             System.out.println("Error: "+e.getMessage());
         }
+
+        try{
+            Scanner scan = new Scanner(new FileReader("Admin.txt"));
+            String line = scan.nextLine();
+            String[] parts = line.split(",");
+            admin.setFirstName(parts[0]);
+            admin.setLastName(parts[1]);
+            admin.setEducationLevel(parts[2]);
+            admin.setUserId(Long.parseLong(parts[3]));
+            scan.close();
+            System.out.println("Scanning Admin File Done.");
+
+        }catch(IOException e){
+            System.out.println("Error: "+e.getMessage());
+        }
     }
 
     private static Book getBook(String line) {
         String[] parts = line.split(",");
+
         String title = parts[0],author = parts[1];
         int  pageCount = Integer.parseInt(parts[2]),yearPublished =Integer.parseInt( parts[3]);
         Boolean toExist = Boolean.parseBoolean((parts[4]));
@@ -212,15 +244,20 @@ public class FileStorageHandler {
         String[] parts = line.split(",");
         libraryManager manager = new libraryManager();
         String firstName = parts[0],lastName = parts[1];
-        int userId = Integer.parseInt(parts[2]);
+        Long userId = Long.parseLong(parts[2]);
         manager.setFirstName(firstName);
         manager.setLastName(lastName);
         manager.setUserId(userId);
         return manager;
     }
-    private static bookLoan getBookLoan(String line){
+    private static BookLoan getBookLoan(String line){
+
         String[] parts = line.split(",");
-        bookLoan loan = new bookLoan();
+        if (parts.length < 21) {
+            System.out.println("Invalid BookLoan data: " + line);
+            return null;
+        }
+        BookLoan loan = new BookLoan();
 
         Book book = new Book();
         String title = parts[0],author = parts[1];
@@ -244,14 +281,14 @@ public class FileStorageHandler {
 
         libraryManager giverManager = new libraryManager();
         String firstNameGiverManager = parts[10],lastNameGiverManager = parts[11];
-        int userIdGiver = Integer.parseInt(parts[12]);
+        Long userIdGiver = Long.parseLong(parts[12]);
         giverManager.setFirstName(firstNameGiverManager);
         giverManager.setLastName(lastNameGiverManager);
         giverManager.setUserId(userIdGiver);
 
         libraryManager ReceiverManager = new libraryManager();
         String firstNameReceiverManager = parts[13],lastNameReceiverManager = parts[14];
-        int userIdReceiver = Integer.parseInt(parts[15]);
+        Long userIdReceiver = Long.parseLong(parts[15]);
         ReceiverManager.setFirstName(firstNameReceiverManager);
         ReceiverManager.setLastName(lastNameReceiverManager);
         ReceiverManager.setUserId(userIdReceiver);
@@ -270,7 +307,7 @@ public class FileStorageHandler {
         loan.setDueDate(dueDate);
         loan.setActualReturn(actualReturn);
         loan.setLaterTime(laterTime);
-        loan.setCountBookLoan(countLoan);
+        loan.setCountLoan(countLoan);
 
         return loan;
     }
