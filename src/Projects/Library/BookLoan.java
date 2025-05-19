@@ -13,8 +13,17 @@ public class BookLoan {
 
     LocalDate DueDate;
     LocalDate actualReturn;
+    Period actualReturnTemp;
     Period laterTime;
     private int totalLoanCount =0;
+
+    public Period getActualReturnTemp() {
+        return actualReturnTemp;
+    }
+
+    public void setActualReturnTemp(Period actualReturnTemp) {
+        this.actualReturnTemp = actualReturnTemp;
+    }
 
     public void setCountLoan(int count) {
         this.totalLoanCount = count;

@@ -20,6 +20,14 @@ public class Library {
     ArrayList<BookLoan> ArrayBookLoans = new ArrayList<>();
     public BookLoan[] mostBooksLoans;
 
+    ArrayList<Request> ArrayRequest = new ArrayList<>();
+    public void addRequest(Request request){
+        ArrayRequest.add(request);
+    }
+    public ArrayList<Request> getArrayRequest() {
+        return ArrayRequest;
+    }
+
     public void setLibraryName(String libraryName) {
         this.libraryName = libraryName;
     }
@@ -54,8 +62,8 @@ public class Library {
         for (int i = 0; i < ArrayBooks.size(); i++) {
             Book book = ArrayBooks.get(i);
             if (
-                    (title.isEmpty() || book.getTitle().toLowerCase().contains(title.toLowerCase())) &&
-                    (author.isEmpty() || book.getAuthor().toLowerCase().contains(author.toLowerCase()))
+                    (book.getTitle().toLowerCase().contains(title.toLowerCase())) &&
+                    (book.getAuthor().toLowerCase().contains(author.toLowerCase()) && book.isToExist())
             ) {
                 System.out.println("Book found:");
                 System.out.println(book);
@@ -138,5 +146,6 @@ public class Library {
             System.out.println((i + 1) + ". " + books.get(i).getTitle() + " - Borrowed " + counts.get(i) + " times");
         }
     }
+
 
 }

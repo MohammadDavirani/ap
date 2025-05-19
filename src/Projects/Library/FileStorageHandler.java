@@ -64,38 +64,44 @@ public class FileStorageHandler {
             System.out.println("Error: "+ e.getMessage());
         }
 
-        try{
+        try {
             FileWriter writer = new FileWriter("BookLoans.txt");
-            for(int i=0;i<library.getArrayBookLoans().size();i++){
-                BookLoan loan = library.getArrayBookLoans().get(i);
+            for (BookLoan loan : library.getArrayBookLoans()) {
                 writer.write(
-                        loan.getBookLoan().getTitle()+","+
-                        loan.getBookLoan().getAuthor()+","+
-                        loan.getBookLoan().getYearPublished()+","+
-                        loan.getBookLoan().getPageCount()+","+
-                        loan.getBookLoan().isToExist()+","+
-                        loan.getStudent().getFirstName()+","+
-                        loan.getStudent().getLastName()+","+
-                        loan.getStudent().getMajor()+","+
-                        loan.getStudent().getStudentId()+","+
-                        loan.getGiverManager().getFirstName()+","+
-                        loan.getGiverManager().getLastName()+","+
-                        loan.getGiverManager().getUserId()+","+
-                        loan.getReceiverManager().getFirstName()+","+
-                        loan.getReceiverManager().getLastName()+","+
-                        loan.getReceiverManager().getUserId()+","+
-                        loan.getBorrowDate()+","+
-                        loan.getDueDate()+","+
-                        loan.getActualReturn()+","+
-                        loan.getLaterTime().toString()+","+
-                        loan.getTotalLoanCount()+"\n"
+                        loan.getBookLoan().getTitle() + "," +
+                                loan.getBookLoan().getAuthor() + "," +
+                                loan.getBookLoan().getYearPublished() + "," +
+                                loan.getBookLoan().getPageCount() + "," +
+                                loan.getBookLoan().isToExist() + "," +
+
+                                loan.getStudent().getFirstName() + "," +
+                                loan.getStudent().getLastName() + "," +
+                                loan.getStudent().getMajor() + "," +
+                                loan.getStudent().getStudentId() + "," +
+                                loan.getStudent().getMemberShipDate() + "," +
+
+                                loan.getGiverManager().getFirstName() + "," +
+                                loan.getGiverManager().getLastName() + "," +
+                                loan.getGiverManager().getUserId() + "," +
+
+                                (loan.getReceiverManager() != null ? loan.getReceiverManager().getFirstName() : "null") + "," +
+                                (loan.getReceiverManager() != null ? loan.getReceiverManager().getLastName() : "null") + "," +
+                                (loan.getReceiverManager() != null ? loan.getReceiverManager().getUserId() : "null") + "," +
+
+                                loan.getBorrowDate() + "," +
+                                loan.getDueDate() + "," +
+                                (loan.getActualReturn() != null ? loan.getActualReturn().toString() : "null") + "," +
+                                (loan.getLaterTime() != null ? loan.getLaterTime().toString() : "null") + "," +
+                                loan.getTotalLoanCount() + "\n"
                 );
             }
+
             writer.close();
             System.out.println("Write ArrayBookLoan to file Successful");
-        }catch(IOException e){
-            System.out.println("Error: "+e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
         }
+
 
         try{
             FileWriter writer = new FileWriter("SizeOfArray.txt");
@@ -103,7 +109,8 @@ public class FileStorageHandler {
                     library.getArrayBooks().size()+"\n"+
                         library.getArrayStudents().size()+"\n"+
                         library.getArrayLibraryManagers().size()+"\n"+
-                        library.getArrayBookLoans().size()
+                        library.getArrayBookLoans().size()+"\n"+
+                            library.getArrayRequest().size()
             );
             writer.close();
             System.out.println("Write SizeOfAllArray to file Successful");
@@ -126,16 +133,40 @@ public class FileStorageHandler {
             System.out.println("Error: "+e.getMessage());
         }
 
+        try{
+            FileWriter writer = new FileWriter("bookBorrowRequest.txt");
+            for(int i=0;i<library.getArrayRequest().size();i++){
+                Request request = library.getArrayRequest().get(i);
+                writer.write(
+                            request.getDate()+","+
+                                request.getBook().getTitle()+","+
+                                request.getBook().getAuthor()+","+
+                                request.getBook().getPageCount()+","+
+                                request.getBook().getYearPublished()+","+
+                                request.getBook().isToExist()+","+
+                                request.getStudent().getFirstName()+","+
+                                request.getStudent().getLastName()+","+
+                                request.getStudent().getMajor()+","+
+                                request.getStudent().getStudentId()+","+
+                                request.getStudent().getMemberShipDate()+"\n"
+                        );
+            }
+            writer.close();
+        }catch(IOException e){
+            System.out.println("Error: "+e.getMessage());
+        }
+
     }
 
     public void loadLibraryData(Library library,libraryAdmin admin){
-        int sizeOfBooksArray = 0,sizeOfStudentArray = 0,sizeOfLibraryManagerArray = 0,sizeOfBookLoansArray = 0;
+        int sizeOfBooksArray = 0,sizeOfStudentArray = 0,sizeOfLibraryManagerArray = 0,sizeOfBookLoansArray = 0,sizeOfRequestBookArray=0;
         try{
             Scanner scan = new Scanner(new FileReader("SizeOfArray.txt"));
             sizeOfBooksArray = scan.nextInt();
             sizeOfStudentArray = scan.nextInt();
             sizeOfLibraryManagerArray = scan.nextInt();
             sizeOfBookLoansArray = scan.nextInt();
+            sizeOfRequestBookArray = scan.nextInt();
             scan.close();
             System.out.println("Scanning SizeOfArray File Done.");
         }catch(IOException e){
@@ -209,6 +240,17 @@ public class FileStorageHandler {
         }catch(IOException e){
             System.out.println("Error: "+e.getMessage());
         }
+
+        try{
+            Scanner scan = new Scanner(new FileReader("bookBorrowRequest.txt"));
+            for(int i=0;i<sizeOfRequestBookArray;i++){
+                String line = scan.nextLine();
+                Request request = getBookRequest(line);
+                library.addRequest(request);
+            }
+        }catch(IOException e){
+            System.out.println("Error: "+e.getMessage());
+        }
     }
 
     private static Book getBook(String line) {
@@ -229,7 +271,7 @@ public class FileStorageHandler {
         Student student =new Student();
         String[] parts = line.split(",");
         String firstName = parts[0],lastName = parts[1],major = parts[2];
-        int stuID = Integer.parseInt(parts[3]);
+        Long stuID = Long.parseLong(parts[3]);
         LocalDate date = LocalDate.parse(parts[4]);
 
         student.setFirstName(firstName);
@@ -250,67 +292,85 @@ public class FileStorageHandler {
         manager.setUserId(userId);
         return manager;
     }
-    private static BookLoan getBookLoan(String line){
-
+    private static BookLoan getBookLoan(String line) {
         String[] parts = line.split(",");
+
         if (parts.length < 21) {
             System.out.println("Invalid BookLoan data: " + line);
             return null;
         }
+
         BookLoan loan = new BookLoan();
 
         Book book = new Book();
-        String title = parts[0],author = parts[1];
-        int  pageCount = Integer.parseInt(parts[2]),yearPublished =Integer.parseInt( parts[3]);
-        Boolean toExist = Boolean.parseBoolean((parts[4]));
-        book.setTitle(title);
-        book.setAuthor(author);
-        book.setPageCount(pageCount);
-        book.setYearPublished(yearPublished);
-        book.setToExist(toExist);
+        book.setTitle(parts[0]);
+        book.setAuthor(parts[1]);
+        book.setYearPublished(Integer.parseInt(parts[2]));
+        book.setPageCount(Integer.parseInt(parts[3]));
+        book.setToExist(Boolean.parseBoolean(parts[4]));
 
-        Student student =new Student();
-        String firstNameStudent = parts[5],lastNameStudent = parts[6],major = parts[7];
-        int stuID = Integer.parseInt(parts[8]);
-        LocalDate date = LocalDate.parse(parts[9]);
-        student.setFirstName(firstNameStudent);
-        student.setLastName(lastNameStudent);
-        student.setMajor(major);
-        student.setStudentId(stuID);
-        student.setMemberShipDate(date);
+        Student student = new Student();
+        student.setFirstName(parts[5]);
+        student.setLastName(parts[6]);
+        student.setMajor(parts[7]);
+        student.setStudentId(Long.parseLong(parts[8]));
+        student.setMemberShipDate(LocalDate.parse(parts[9]));
 
         libraryManager giverManager = new libraryManager();
-        String firstNameGiverManager = parts[10],lastNameGiverManager = parts[11];
-        Long userIdGiver = Long.parseLong(parts[12]);
-        giverManager.setFirstName(firstNameGiverManager);
-        giverManager.setLastName(lastNameGiverManager);
-        giverManager.setUserId(userIdGiver);
+        giverManager.setFirstName(parts[10]);
+        giverManager.setLastName(parts[11]);
+        giverManager.setUserId(Long.parseLong(parts[12]));
 
-        libraryManager ReceiverManager = new libraryManager();
-        String firstNameReceiverManager = parts[13],lastNameReceiverManager = parts[14];
-        Long userIdReceiver = Long.parseLong(parts[15]);
-        ReceiverManager.setFirstName(firstNameReceiverManager);
-        ReceiverManager.setLastName(lastNameReceiverManager);
-        ReceiverManager.setUserId(userIdReceiver);
+        libraryManager receiverManager = null;
+        if (!parts[13].equals("null")) {
+            receiverManager = new libraryManager();
+            receiverManager.setFirstName(parts[13]);
+            receiverManager.setLastName(parts[14]);
+            receiverManager.setUserId(Long.parseLong(parts[15]));
+        }
 
         LocalDate borrowDate = LocalDate.parse(parts[16]);
         LocalDate dueDate = LocalDate.parse(parts[17]);
-        LocalDate actualReturn = LocalDate.parse(parts[18]);
-        Period laterTime = Period.parse(parts[19]);
-        int countLoan = Integer.parseInt(parts[20]);
+
+        LocalDate actualReturn = parts[18].equals("null") ? null : LocalDate.parse(parts[18]);
+
+        Period laterTime = parts[19].equals("null") ? null : Period.parse(parts[19]);
+
+        int totalLoanCount = Integer.parseInt(parts[20]);
 
         loan.setBookLoan(book);
         loan.setStudentBookLoan(student);
         loan.setGiverManager(giverManager);
-        loan.setReceiverManager(ReceiverManager);
+        loan.setReceiverManager(receiverManager);
         loan.setBorrowDate(borrowDate);
         loan.setDueDate(dueDate);
         loan.setActualReturn(actualReturn);
         loan.setLaterTime(laterTime);
-        loan.setCountLoan(countLoan);
+        loan.setCountLoan(totalLoanCount);
 
         return loan;
     }
+    private static Request getBookRequest(String line){
+        String[] parts = line.split(",");
+        Request request =new Request();
+        request.setDate(LocalDate.parse(parts[0]));
+        Book book = new Book();
+        book.setTitle(parts[1]);
+        book.setAuthor(parts[2]);
+        book.setPageCount(Integer.parseInt(parts[3]));
+        book.setYearPublished(Integer.parseInt(parts[4]));
+        book.setToExist(Boolean.parseBoolean(parts[5]));
+        request.setBook(book);
 
+        Student student =new Student();
+        student.setFirstName(parts[6]);
+        student.setLastName(parts[7]);
+        student.setMajor(parts[8]);
+        student.setStudentId(Long.parseLong(parts[9]));
+        student.setMemberShipDate(LocalDate.parse(parts[10]));
+        request.setStudent(student);
+
+        return request;
+    }
 
 }

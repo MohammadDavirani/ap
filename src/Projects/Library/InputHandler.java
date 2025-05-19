@@ -41,7 +41,7 @@ public class InputHandler {
         student.setLastName(input.nextLine());
 
         System.out.println("student Id: ");
-        student.setStudentId(input.nextInt());
+        student.setStudentId(input.nextLong());
         input.nextLine();
 
         System.out.println("major: ");

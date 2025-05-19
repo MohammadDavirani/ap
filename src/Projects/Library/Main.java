@@ -19,9 +19,11 @@ public class Main {
             library.addManager(manager2);
         }
 
+
+        libraryManager manager = new libraryManager();
         int choice;
         do {
-            System.out.println("Choose your role:\n1. Student\n2. Admin");
+            System.out.println("Choose your role:\n1. Student\n2. Admin\n3. Manager");
             choice = input.nextInt();
             switch(choice){
                 case 1:
@@ -29,7 +31,11 @@ public class Main {
                     break;
 
                 case 2:
-                    menu.showAdminMenu(admin);
+                    menu.showAdminMenu(library,admin);
+                    break;
+
+                case 3:
+                    menu.showManagerMenu(library,manager);
                     break;
 
                 default:

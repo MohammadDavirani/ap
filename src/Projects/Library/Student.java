@@ -6,7 +6,9 @@ public class Student {
     private String firstName;
     private String lastName;
     private String major;
-    private int studentId;
+    private Long studentId;
+    private LocalDate memberShipDate;
+
 
     @Override
     public String toString() {
@@ -19,8 +21,6 @@ public class Student {
                 '}';
     }
 
-    private LocalDate memberShipDate;
-
     public String getFirstName() {
         return firstName;
     }
@@ -30,7 +30,7 @@ public class Student {
     public String getMajor() {
         return major;
     }
-    public int getStudentId() {
+    public Long getStudentId() {
         return studentId;
     }
     public LocalDate getMemberShipDate() {
@@ -46,7 +46,7 @@ public class Student {
     public void setMajor(String major) {
         this.major = major;
     }
-    public void setStudentId(int studentId) {
+    public void setStudentId(Long studentId) {
         this.studentId = studentId;
     }
     public void setMemberShipDate(LocalDate memberShipDate) {

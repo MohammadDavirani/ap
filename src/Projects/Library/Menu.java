@@ -1,5 +1,6 @@
 package Projects.Library;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Menu {
@@ -7,14 +8,17 @@ public class Menu {
         System.out.println("are you member of library?\n1.yes\n2.no");
         Scanner input = new Scanner(System.in);
         int question = input.nextInt();
+        long question2 = 0;
         boolean ask = false;
         if(question == 1){
             System.out.println("please enter your student id:");
-            question = input.nextInt();
+            question2 = input.nextLong();
             for(int i=0;i<library.getArrayStudents().size();i++){
                 Student student = library.getArrayStudents().get(i);
-                if(question == student.getStudentId()){
+                if(question2 == student.getStudentId()){
                     ask = true;
+                    System.out.println("Welcome to library.");
+
                 }
             }
         }else if(question == 2){
@@ -47,32 +51,73 @@ public class Menu {
         }
 
 
-        System.out.println("\n----- Student Menu -----");
-        System.out.println("1. Search for a book");
-        System.out.println("2. Borrow a book");
-        System.out.println("3. Return a book");
-        System.out.println("4. Exit");
-        System.out.print("Choose an option: ");
+
         int choose;
         libraryManager manager = new libraryManager();
         Student student = new Student();
         Book book = new Book();
+        String title,author;
         do{
+            System.out.println("\n----- Student Menu -----");
+            System.out.println("1. Search for a book");
+            System.out.println("2. request a borrow book");
+            System.out.println("3. request a Return book");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
             choose=input.nextInt();
+            input.nextLine();
             switch(choose){
                 case 1:
-                    String title,author;
+                    System.out.println("title:");
                     title = input.nextLine();
+                    System.out.println("author:");
                     author = input.nextLine();
                     library.searchBook(title,author);
                     break;
 
                 case 2:
-                    manager.borrowBook(library,student,book);
+                    System.out.println("title:");
+                    title = input.nextLine();
+                    System.out.println("author:");
+                    author = input.nextLine();
+
+                    book=manager.toExistBook(title,author,library);
+
+                    Long studentId  = question2;
+                    student = manager.toExistStudent(studentId,library);
+
+
+                    if (book == null || student == null) {
+                        System.out.println("Book or Student not found in library.");
+                        return;
+                    }
+
+                    if (!manager.studentRequest(student, book, library.getArrayRequest())) {
+                        Request request = new Request();
+                        request.setBook(book);
+                        request.setStudent(student);
+                        request.setDate(LocalDate.now());
+                        library.addRequest(request);
+                        System.out.println("Your request has been registered.");
+                    } else {
+                        System.out.println("Your request has already been registered.");
+                    }
                     break;
 
                 case 3:
-                    manager.returnBook(library,student,book);
+                    System.out.println("title:");
+                    title = input.nextLine();
+                    System.out.println("author:");
+                    author = input.nextLine();
+
+                    book=manager.toExistReturnBookRequest(title,author,library);
+
+                    studentId  = question2;
+                    student = manager.toExistReturnBookRequest(studentId,library);
+
+                    if(book != null && student != null){
+                        manager.ReturnBookRequest(student,book,library,manager);
+                    }
                     break;
 
                 case 4:
@@ -87,7 +132,7 @@ public class Menu {
         }while(choose !=4);
 
     }
-    public void showAdminMenu(libraryAdmin admin){
+    public void showAdminMenu(Library library,libraryAdmin admin){
         System.out.println("Please enter your userId:");
         Scanner input = new Scanner(System.in);
         Long question = input.nextLong();
@@ -102,7 +147,7 @@ public class Menu {
                 System.out.println("please enter code:");
                 question2 = input.nextInt();
                 input.nextLine();
-                if(question == admin.getCode())
+                if(question2 == admin.getCode())
                 {
                     System.out.println("firstName:");
                     String firstName = input.nextLine();
@@ -132,7 +177,6 @@ public class Menu {
         Book book = null;
         int choose;
         InputHandler handler = new InputHandler();
-        Library library = new Library();
         do{
             System.out.println("\n----- Admin Menu -----");
             System.out.println("1. Add new book");
@@ -171,5 +215,49 @@ public class Menu {
             }
 
         }while(choose !=5);
+    }
+    public void showManagerMenu(Library library,libraryManager manager){
+        System.out.println("Please enter your userId:");
+        Scanner input = new Scanner(System.in);
+        Long question = input.nextLong();
+        boolean logIn = false;
+        if(question == library.getArrayLibraryManagers().get(0).getUserId() ||
+                question == library.getArrayLibraryManagers().get(1).getUserId()) {
+            logIn = true;
+        }
+
+        if(logIn){
+            System.out.println("Welcome to library.");
+            int choose;
+            do{
+                System.out.println("\n----- Manager Menu -----");
+                System.out.println("1. Accepting the student's request");
+                System.out.println("2. Exit");
+                System.out.print("Choose an option: ");
+                choose=input.nextInt();
+                switch(choose){
+                    case 1:
+                        manager.borrowBookRequest(library,manager);
+
+                        break;
+
+                    case 2:
+                        break;
+
+                    default:
+                        System.out.println("Invalid number!");
+                        break;
+                }
+
+
+            }while(choose != 2);
+
+
+
+
+        }
+        else{
+            System.out.println("You are not the librarian Manager! ");
+        }
     }
 }
