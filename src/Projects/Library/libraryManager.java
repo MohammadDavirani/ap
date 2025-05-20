@@ -103,12 +103,24 @@ public class libraryManager {
         return false;
     }
 
+    public libraryManager getManager(Long question , Library library){
+
+        if(question == library.getArrayLibraryManagers().get(0).getUserId()){
+            return library.getArrayLibraryManagers().get(0);
+        }else if (question == library.getArrayLibraryManagers().get(1).getUserId()) {
+            return library.getArrayLibraryManagers().get(1);
+        }
+
+        return null;
+    }
+
     public void borrowBookRequest(Library library,libraryManager manager){
         for(int i=0;i<library.getArrayRequest().size();i++){
             Request request = library.getArrayRequest().get(i);
             System.out.println(i+") "+request);
         }
         if(library.getArrayRequest().size()>0) {
+            libraryManager manager1 = new libraryManager();
             Scanner input = new Scanner(System.in);
             System.out.println("Enter the student Id: ");
             int Number = input.nextInt();
@@ -120,7 +132,10 @@ public class libraryManager {
             loan.setBookLoan(book);
             loan.setStudentBookLoan(student);
             loan.setGiverManager(manager);
+            loan.setReceiverManager(manager1);
             loan.setBorrowDate(LocalDate.now());
+            loan.setActualReturn(LocalDate.now());
+            loan.setLaterTime(Period.ZERO);
             loan.setDueDate(LocalDate.now().plusDays(20));
             loan.incrementLoanCount();
             library.addLoan(loan);
@@ -151,11 +166,12 @@ public class libraryManager {
         return null;
     }
     public void ReturnBookRequest(Student student , Book book, Library library, libraryManager manager) {
+        libraryManager manager1 = manager;
         for(int i=0;i<library.getArrayBookLoans().size();i++){
             if(library.getArrayBookLoans().get(i).getStudent().equals(student)&&library.getArrayBookLoans().get(i).getBookLoan().equals(book) ){
                 BookLoan loan = library.getArrayBookLoans().get(i);
-                loan.setGiverManager(manager);
-                loan.setReceiverManager(manager);
+                loan.setGiverManager(manager1);
+                loan.setReceiverManager(manager1);
                 loan.setActualReturn(LocalDate.now());
                 loan.setLaterTime(Period.between(loan.getBorrowDate(),loan.getBorrowDate()));
                 try{
@@ -194,7 +210,7 @@ public class libraryManager {
         }
     }
 
-    public void acceptReturnRequest(Library library, libraryManager manager) {
+    public void acceptReturnRequest(Library library, libraryManager manager , Long userId) {
         File requestFile = new File("bookReturnRequest.txt");
         List<String> remainingRequests = new ArrayList<>();
 
@@ -222,6 +238,8 @@ public class libraryManager {
 
                 boolean matched = false;
 
+                libraryManager manager1 = manager.getManager(userId,library);
+
                 if (book.isToExist()) {
                     for (BookLoan loan : library.getArrayBookLoans()) {
                         if (loan.getBookLoan().getTitle().equalsIgnoreCase(book.getTitle()) &&
@@ -230,7 +248,7 @@ public class libraryManager {
 
                             loan.setActualReturn(LocalDate.now());
                             loan.setLaterTime(Period.between(loan.getDueDate(), loan.getActualReturn()));
-                            loan.setReceiverManager(manager);
+                            loan.setReceiverManager(manager1);
                             loan.getBookLoan().setToExist(false);
                             System.out.println("The request was successfully approved.");
                             matched = true;

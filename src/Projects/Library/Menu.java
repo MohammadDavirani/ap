@@ -216,7 +216,7 @@ public class Menu {
 
         }while(choose !=5);
     }
-    public void showManagerMenu(Library library,libraryManager manager){
+    public void showManagerMenu(Library library){
         System.out.println("Please enter your userId:");
         Scanner input = new Scanner(System.in);
         Long question = input.nextLong();
@@ -225,6 +225,9 @@ public class Menu {
                 question == library.getArrayLibraryManagers().get(1).getUserId()) {
             logIn = true;
         }
+
+        libraryManager manager = new libraryManager();
+        manager = manager.getManager(question,library);
 
         if(logIn){
             System.out.println("Welcome to library.");
@@ -243,7 +246,10 @@ public class Menu {
                         break;
 
                     case 2:
-                        manager.acceptReturnRequest(library,manager);
+                        manager.acceptReturnRequest(library,manager,question);
+                        break;
+
+                    case 3:
                         break;
 
                     default:

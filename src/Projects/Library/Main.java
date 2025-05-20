@@ -35,7 +35,7 @@ public class Main {
                     break;
 
                 case 3:
-                    menu.showManagerMenu(library,manager);
+                    menu.showManagerMenu(library);
                     break;
 
                 default:

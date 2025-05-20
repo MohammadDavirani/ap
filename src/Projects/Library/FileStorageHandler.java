@@ -84,6 +84,7 @@ public class FileStorageHandler {
                                 loan.getGiverManager().getLastName() + "," +
                                 loan.getGiverManager().getUserId() + "," +
 
+
                                 (loan.getReceiverManager() != null ? loan.getReceiverManager().getFirstName() : "null") + "," +
                                 (loan.getReceiverManager() != null ? loan.getReceiverManager().getLastName() : "null") + "," +
                                 (loan.getReceiverManager() != null ? loan.getReceiverManager().getUserId() : "null") + "," +
