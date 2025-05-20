@@ -1,7 +1,8 @@
 package Projects.Library;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import com.sun.xml.internal.fastinfoset.algorithm.BooleanEncodingAlgorithm;
+
+import java.io.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -153,9 +154,10 @@ public class libraryManager {
         for(int i=0;i<library.getArrayBookLoans().size();i++){
             if(library.getArrayBookLoans().get(i).getStudent().equals(student)&&library.getArrayBookLoans().get(i).getBookLoan().equals(book) ){
                 BookLoan loan = library.getArrayBookLoans().get(i);
+                loan.setGiverManager(manager);
                 loan.setReceiverManager(manager);
                 loan.setActualReturn(LocalDate.now());
-                loan.setLaterTime(Period.between(loan.getActualReturn(),loan.getDueDate()));
+                loan.setLaterTime(Period.between(loan.getBorrowDate(),loan.getBorrowDate()));
                 try{
                     FileWriter writer = new FileWriter("bookReturnRequest.txt");
                     writer.write(loan.getBookLoan().getTitle() + "," +
@@ -192,6 +194,78 @@ public class libraryManager {
         }
     }
 
+    public void acceptReturnRequest(Library library, libraryManager manager) {
+        File requestFile = new File("bookReturnRequest.txt");
+        List<String> remainingRequests = new ArrayList<>();
+
+        try (Scanner scan = new Scanner(new FileReader(requestFile))) {
+            boolean foundRequest = false;
+
+            while (scan.hasNextLine()) {
+                String line = scan.nextLine();
+                String[] parts = line.split(",");
+
+                if (parts.length < 9) {
+                    System.out.println("Invalid request format: " + line);
+                    continue;
+                }
+
+                foundRequest = true;
+
+                Book book = new Book();
+                book.setTitle(parts[0]);
+                book.setAuthor(parts[1]);
+                book.setToExist(Boolean.parseBoolean(parts[4]));
+
+                Student student = new Student();
+                student.setStudentId(Long.parseLong(parts[8]));
+
+                boolean matched = false;
+
+                if (book.isToExist()) {
+                    for (BookLoan loan : library.getArrayBookLoans()) {
+                        if (loan.getBookLoan().getTitle().equalsIgnoreCase(book.getTitle()) &&
+                                loan.getBookLoan().getAuthor().equalsIgnoreCase(book.getAuthor()) &&
+                                loan.getStudent().getStudentId().equals(student.getStudentId())) {
+
+                            loan.setActualReturn(LocalDate.now());
+                            loan.setLaterTime(Period.between(loan.getDueDate(), loan.getActualReturn()));
+                            loan.setReceiverManager(manager);
+                            loan.getBookLoan().setToExist(false);
+                            System.out.println("The request was successfully approved.");
+                            matched = true;
+                            break;
+                        }
+                    }
+                }
+
+                for(Book book1 : library.getArrayBooks()){
+                    if(book1.getTitle().equals(book.getTitle()) && book1.getAuthor().equals(book1.getAuthor())){
+                        book1.setToExist(true);
+                    }
+                }
+
+                if (!matched) {
+                    remainingRequests.add(line);
+                }
+            }
+
+            if (!foundRequest) {
+                System.out.println("There is no request.");
+            }
+
+            try (PrintWriter writer = new PrintWriter(new FileWriter(requestFile))) {
+                for (String remaining : remainingRequests) {
+                    writer.println(remaining);
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error reading request file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Error parsing number from file: " + e.getMessage());
+        }
+    }
     @Override
     public String toString() {
         return

@@ -231,8 +231,9 @@ public class Menu {
             int choose;
             do{
                 System.out.println("\n----- Manager Menu -----");
-                System.out.println("1. Accepting the student's request");
-                System.out.println("2. Exit");
+                System.out.println("1. Accepting the student's request for Borrow book");
+                System.out.println("2. Accepting the student's request for Return book");
+                System.out.println("3. Exit");
                 System.out.print("Choose an option: ");
                 choose=input.nextInt();
                 switch(choose){
@@ -242,6 +243,7 @@ public class Menu {
                         break;
 
                     case 2:
+                        manager.acceptReturnRequest(library,manager);
                         break;
 
                     default:
@@ -250,7 +252,7 @@ public class Menu {
                 }
 
 
-            }while(choose != 2);
+            }while(choose != 3);
 
 
 
