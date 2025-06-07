@@ -16,6 +16,8 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import static exercises.EX6_SC3.scraper.Conf.Sleep;
+
 public class Main_EX6_SC3 {
 
     private static List<String> fileList = DirectoryTools.getFilesAbsolutePathInDirectory(Conf.SAVE_DIRECTORY);
@@ -219,7 +221,11 @@ public class Main_EX6_SC3 {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        creatFoldersForUrl();
+    public static void main(String[] args) throws IOException, InterruptedException {
+        int k;
+        System.out.println("Please enter a number for Sleep");
+        Scanner scan = new Scanner(System.in);
+        k = scan.nextInt();
+        Sleep(k);
     }
 }
