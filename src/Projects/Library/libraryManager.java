@@ -1,6 +1,6 @@
 package Projects.Library;
 
-import com.sun.xml.internal.fastinfoset.algorithm.BooleanEncodingAlgorithm;
+//import com.sun.xml.internal.fastinfoset.algorithm.BooleanEncodingAlgorithm;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -14,6 +14,23 @@ public class libraryManager {
     private String firstName;
     private String lastName;
     private long userId;
+
+    public libraryManager(){
+
+    }
+
+    public libraryManager(String line) {
+        String[] parts = line.split(",");
+        this.firstName = parts[0].split("=")[1].trim();
+        this.lastName = parts[1].split("=")[1].trim();
+        this.userId = Long.parseLong(parts[2].split("=")[1].trim());
+    }
+
+    public libraryManager(String first, String last, long i) {
+        this.firstName = first;
+        this.lastName = last;
+        this.userId = i;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -284,12 +301,13 @@ public class libraryManager {
             System.out.println("Error parsing number from file: " + e.getMessage());
         }
     }
+
     @Override
     public String toString() {
-        return
-                firstName + "," +
-                lastName + "," +
-                userId + ","
+        return "libraryManager{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userId=" + userId
                 ;
     }
 }

@@ -43,7 +43,6 @@ public class libraryAdmin {
     public void addBookToLibrary(Library lib, Book book){
         lib.addBook(book);
     }
-
     public void listOfBooksBorrowed(Library library){
         if (library.getArrayBookLoans().isEmpty()) {
             System.out.println("No books have been borrowed.");
@@ -69,8 +68,6 @@ public class libraryAdmin {
             System.out.println("No overdue books found.");
         }
     }
-
-
     @Override
     public String toString() {
         return "libraryAdmin{" +

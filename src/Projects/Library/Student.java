@@ -1,5 +1,7 @@
 package Projects.Library;
 
+import midtermexam.Shop;
+
 import java.time.LocalDate;
 
 public class Student {
@@ -10,6 +12,27 @@ public class Student {
     private LocalDate memberShipDate;
 
 
+    public Student(){
+
+    }
+
+    public Student(String dataLine) {
+        String[] parts = dataLine.split(",");
+        this.firstName = parts[0].split("=")[1];
+        this.lastName = parts[1].split("=")[1];
+        this.major = parts[2].split("=")[1];
+        this.studentId = Long.parseLong(parts[3].split("=")[1].trim());
+        this.memberShipDate = LocalDate.parse(parts[4].split("=")[1].trim());
+    }
+
+    public Student(String first, String last, String it, Long i, LocalDate now) {
+        this.firstName = first;
+        this.lastName = last;
+        this.major = it;
+        this.studentId = i;
+        this.memberShipDate = now;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -17,8 +40,8 @@ public class Student {
                 ", lastName='" + lastName + '\'' +
                 ", major='" + major + '\'' +
                 ", studentId=" + studentId +
-                ", memberShipDate=" + memberShipDate +
-                '}';
+                ", memberShipDate=" + memberShipDate
+                ;
     }
 
     public String getFirstName() {

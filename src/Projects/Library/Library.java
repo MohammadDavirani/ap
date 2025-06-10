@@ -6,30 +6,44 @@ import java.util.ArrayList;
 public class Library {
     private String libraryName;
 
+    public Library() {
+
+    }
     public Library(String libraryName) {
         this.libraryName = libraryName;
     }
 
-    public Library() {
+//    public Library(String name, int bookCount) {
+//        this.libraryName = name;
+//        for (int i = 0; i < bookCount; i++) {
+//            this.ArrayBooks.add(new Book());
+//        }
+//    }
 
+    public String getLibraryName() {
+        return libraryName;
     }
+
+    public int getBookCount() {
+        return ArrayBooks.size();
+    }
+
+
+
+    public void setLibraryName(String libraryName) {
+        this.libraryName = libraryName;
+    }
+
 
     ArrayList<Book> ArrayBooks = new ArrayList<>();
     ArrayList<Student> ArrayStudents = new ArrayList<>();
     ArrayList<libraryManager> ArrayLibraryManagers = new ArrayList<>();
     ArrayList<BookLoan> ArrayBookLoans = new ArrayList<>();
+    ArrayList<Request> ArrayRequest = new ArrayList<>();
     public BookLoan[] mostBooksLoans;
 
-    ArrayList<Request> ArrayRequest = new ArrayList<>();
     public void addRequest(Request request){
         ArrayRequest.add(request);
-    }
-    public ArrayList<Request> getArrayRequest() {
-        return ArrayRequest;
-    }
-
-    public void setLibraryName(String libraryName) {
-        this.libraryName = libraryName;
     }
     public void addBook(Book book) {
         this.ArrayBooks.add(book);
@@ -44,6 +58,9 @@ public class Library {
         this.ArrayBookLoans.add(bookloan);
     }
 
+    public ArrayList<Request> getArrayRequest() {
+        return ArrayRequest;
+    }
     public ArrayList<Book> getArrayBooks() {
         return ArrayBooks;
     }
@@ -75,7 +92,6 @@ public class Library {
             System.out.println("Book not found in library.");
         }
     }
-
     public void countBooksLoans(){
         ArrayList<libraryManager> managers = new ArrayList<>();
         ArrayList<Integer> managerLoanCounts = new ArrayList<>();
@@ -101,7 +117,6 @@ public class Library {
 
 
     }
-
     public void top10BooksLastYear() {
         ArrayList<Book> books = new ArrayList<>();
         ArrayList<Integer> counts = new ArrayList<>();

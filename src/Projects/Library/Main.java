@@ -1,13 +1,20 @@
 package Projects.Library;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+//        LibraryWithTabSplitFile tabSplitFile = new LibraryWithTabSplitFile();
+//        ArrayList<Library> libraries = tabSplitFile.load();
         Library library = new Library("University of zanjan");
         libraryAdmin admin = new libraryAdmin();
-        FileStorageHandler storageHandler =new FileStorageHandler();
-        storageHandler.loadLibraryData(library,admin);
+        jsonFile file =new jsonFile();
+        ArrayList<Library> libraries = file.load();
+        library = libraries.get(0);
+//        FileStorageHandler storageHandler =new FileStorageHandler();
+//        FileStorageHandler storageHandler =new FileStorageHandler();
+//        storageHandler.loadLibraryData(library,admin);
 
         InputHandler handler = new InputHandler();
         Scanner input = new Scanner(System.in);
@@ -20,7 +27,6 @@ public class Main {
         }
 
 
-        libraryManager manager = new libraryManager();
         int choice;
         do {
             System.out.println("Choose your role:\n1. Student\n2. Admin\n3. Manager");
@@ -46,6 +52,9 @@ public class Main {
             choice = input.nextInt();
         }while(choice==1);
 
-        storageHandler.saveLibraryData(library,admin);
+//        tabSplitFile.saveLibraryData(library);
+
+        file.saveJson(library);
+//        storageHandler.saveLibraryData(library,admin);
     }
 }

@@ -7,6 +7,23 @@ public class Request {
     Book book;
     LocalDate date;
 
+    public Request(){
+
+    }
+
+    public Request(String line) {
+        String[] parts = line.split(";");
+        this.student = new Student(parts[0].trim());
+        this.book = new Book(parts[1].trim());
+        this.date = LocalDate.parse(parts[2].trim());
+    }
+
+    public Request(Student student2, Book book2, LocalDate now) {
+        this.student = student2;
+        this.book= book2;
+        this.date = now;
+    }
+
     public LocalDate getDate() {
         return date;
     }

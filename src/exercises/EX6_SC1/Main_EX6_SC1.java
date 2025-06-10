@@ -1,8 +1,8 @@
-package exercises.ex6;
+package exercises.EX6_SC1;
 
-import exercises.ex6.scraper.Conf;
-import exercises.ex6.scraper.utils.DirectoryTools;
-import exercises.ex6.scraper.utils.FileTools;
+import exercises.EX6_SC1.scraper.Conf;
+import exercises.EX6_SC1.scraper.utils.DirectoryTools;
+import exercises.EX6_SC1.scraper.utils.FileTools;
 
 import java.io.FileWriter;
 import java.io.IOException;
