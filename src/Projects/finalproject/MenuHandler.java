@@ -95,10 +95,11 @@ public class MenuHandler implements Serializable {
             System.out.println("3. Borrow a Book");
             System.out.println("4. Return a Book");
             System.out.println("5. View Available Books");
-            System.out.println("6. Logout");
+            System.out.println("6. searching Book");
+            System.out.println("7. Logout");
             System.out.print("Please enter your choice: ");
 
-            int choice = getIntInput(1, 6);
+            int choice = getIntInput(1, 7);
 
             switch (choice) {
                 case 1:
@@ -118,6 +119,9 @@ public class MenuHandler implements Serializable {
                     librarySystem.displayAvailableBooks();
                     break;
                 case 6:
+                    librarySystem.searchingBook();
+                    break;
+                case 7:
                     currentUser = null;
                     System.out.println("Logged out successfully.");
                     return;
@@ -127,7 +131,7 @@ public class MenuHandler implements Serializable {
         }
     }
 
-    private int getIntInput(int min, int max) {
+    public int getIntInput(int min, int max) {
         while (true) {
             try {
                 int input = Integer.parseInt(scanner.nextLine());
