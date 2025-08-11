@@ -1,6 +1,8 @@
 package Projects.finalproject;
 
-public class Student {
+import java.io.Serializable;
+
+public class Student implements Serializable {
     private String name;
     private String studentId;
     private String username;
@@ -16,23 +18,23 @@ public class Student {
     public String getName() {
         return name;
     }
-
     public String getStudentId() {
         return studentId;
     }
-
     public String getUsername() {
         return username;
     }
-
     public String getPassword() {
         return password;
     }
 
     @Override
     public String toString() {
-        return "Name: " + name +
-                " | Student ID: " + studentId +
-                " | Username: " + username;
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", studentId='" + studentId + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

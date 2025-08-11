@@ -1,18 +1,17 @@
 package Projects.finalproject;
 
-
-// MenuHandler.java
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class MenuHandler {
+public class MenuHandler implements Serializable {
     private Scanner scanner;
     private LibrarySystem librarySystem;
     private Student currentUser;
 
     public MenuHandler(LibrarySystem librarySystem) {
-        this.scanner = new Scanner(System.in);
         this.librarySystem = librarySystem;
         this.currentUser = null;
+        this.scanner = new Scanner(System.in);
     }
 
     public void displayMainMenu() {
