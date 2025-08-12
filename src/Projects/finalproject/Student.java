@@ -1,6 +1,9 @@
 package Projects.finalproject;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Student implements Serializable {
     private String name;
@@ -8,15 +11,32 @@ public class Student implements Serializable {
     private String username;
     private String password;
     private boolean borrowRequest;
+    private boolean activeRequests;
+    private List<Book> loanBooks;
+    private List<LocalDate> borrowDate;
+    private List<LocalDate> returnDate;
 
-    public Student(String name, String studentId, String username, String password ,boolean borrowRequest) {
+    public Student(String name, String studentId, String username, String password ,boolean borrowRequest, boolean active) {
         this.name = name;
         this.studentId = studentId;
         this.username = username;
         this.password = password;
         this.borrowRequest = borrowRequest;
+        this.activeRequests = active;
+        this.loanBooks = new ArrayList<>();
+        this.borrowDate = new ArrayList<>();
+        this.returnDate = new ArrayList<>();
     }
 
+    public List<LocalDate> getBorrowDate() {
+        return borrowDate;
+    }
+    public List<LocalDate> getReturnDate() {
+        return returnDate;
+    }
+    public List<Book> getLoanBooks() {
+        return loanBooks;
+    }
     public String getName() {
         return name;
     }
@@ -32,9 +52,24 @@ public class Student implements Serializable {
     public boolean isBorrowRequest() {
         return borrowRequest;
     }
+    public boolean isActiveRequests() {
+        return activeRequests;
+    }
 
+    public void setReturnDate(List<LocalDate> returnDate) {
+        this.returnDate = returnDate;
+    }
+    public void setBorrowDate(List<LocalDate> borrowDate) {
+        this.borrowDate = borrowDate;
+    }
     public void setName(String name) {
         this.name = name;
+    }
+    public void setLoanBooks(List<Book> loanBooks) {
+        this.loanBooks = loanBooks;
+    }
+    public void setActiveRequests(boolean activeRequests) {
+        this.activeRequests = activeRequests;
     }
     public void setStudentId(String studentId) {
         this.studentId = studentId;
@@ -49,6 +84,11 @@ public class Student implements Serializable {
         this.borrowRequest = borrowRequest;
     }
 
+    public void addLoan(Book book, LocalDate borrowDate, LocalDate returnDate) {
+        this.loanBooks.add(book);
+        this.borrowDate.add(borrowDate);
+        this.returnDate.add(returnDate);
+    }
     @Override
     public String toString() {
         return "Student{" +

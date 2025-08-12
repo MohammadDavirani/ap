@@ -1,8 +1,11 @@
 package Projects.finalproject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.time.LocalDate;
 
 public class LibrarySystem implements Serializable {
     private StudentManager studentManager;
@@ -10,7 +13,7 @@ public class LibrarySystem implements Serializable {
     private MenuHandler menuHandler;
     private BookManager bookManager;
     private Scanner scanner;
-
+    private Student student;
     //--------------------------------------------------------------------
     public LibrarySystem() {
         this.studentManager = new StudentManager();
@@ -51,8 +54,8 @@ public class LibrarySystem implements Serializable {
     }
 
     //--------------------------------------------------------------------
-    public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest) {
-        studentManager.registerStudent(name, studentId, username, password, borrowRequest);
+    public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest,boolean activeRequest) {
+        studentManager.registerStudent(name, studentId, username, password, borrowRequest,activeRequest);
     }
     public void registerAdmin(String username, String password){
         adminManager.registerAdmin(username, password);
@@ -229,8 +232,7 @@ public class LibrarySystem implements Serializable {
                 .findFirst()
                 .orElse(null);
     }
-
-    public void editBookInformation(Admin currentAdminUser){
+    public void editBookInformation(){
         Book editBook = searchingBook();
         System.out.println("=== Edit Book Information Box ===");
         System.out.println("1. edit title");
@@ -267,7 +269,59 @@ public class LibrarySystem implements Serializable {
                 System.out.println("Invalid option! Please try again.");
         }
     }
+    public void checkingRequest(Admin currentAdminUser) {
+        List<BooksRequested> list = studentManager.getBooksRequested().stream()
+                .filter(s -> s.getStudent().isBorrowRequest())
+                .collect(Collectors.toList());
 
+        if (list.isEmpty()) {
+            System.out.println("No borrow requests found.");
+            return;
+        }
+
+        for(BooksRequested requested : list){
+            System.out.println(requested);
+        }
+
+        String question;
+        do {
+            System.out.print("Enter student id: ");
+            String studentId = scanner.nextLine();
+
+            BooksRequested requested = list.stream()
+                    .filter(s -> s.getStudent().getStudentId().equalsIgnoreCase(studentId))
+                    .findFirst()
+                    .orElse(null);
+
+            if (requested != null) {
+                System.out.print("Can the request be approved? (yes/no): ");
+                String request = scanner.nextLine();
+
+                if (request.equalsIgnoreCase("yes")) {
+                    if (requested.getBook().getExist()) {
+                        requested.getBook().setExist(false);
+                        requested.getStudent().setBorrowRequest(false);
+                        currentAdminUser.setNumberOfBooksLoaned(currentAdminUser.getNumberOfBooksLoaned() + 1);
+                        requested.getStudent().setActiveRequests(true);
+                        System.out.println("Done successfully");
+                        ActiveRequest activeRequest = new ActiveRequest(requested.getStudent(),requested.getBook());
+                        List<ActiveRequest> activeRequests = studentManager.getActiveRequests();
+                        activeRequests.add(activeRequest);
+                    } else {
+                        System.out.println("Book is not available!");
+                    }
+                } else {
+                    requested.getStudent().setBorrowRequest(false);
+                    System.out.println("Request not approved.");
+                }
+            } else {
+                System.out.println("ID not found!");
+            }
+
+            System.out.println("Press 'q' to exit or any other key to continue: ");
+            question = scanner.nextLine();
+        } while (!"q".equalsIgnoreCase(question));
+    }
     public void informationMode(){
         System.out.println("=== information mode ===");
         System.out.println("1. all student count");
@@ -303,6 +357,32 @@ public class LibrarySystem implements Serializable {
         }
     }
 
+
+    public void activeRequests(Student student){
+        if(student.isActiveRequests()){
+            ActiveRequest request = studentManager.getActiveRequests().stream()
+                    .filter(s -> s.getStudent().getStudentId().equalsIgnoreCase(student.getStudentId()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (request != null) {
+                Book book = request.getBook();
+                LocalDate startDate = LocalDate.now();
+                LocalDate endDate = startDate.plusDays(20);
+
+                student.addLoan(book, startDate, endDate);
+
+                System.out.println("The book with the specifications: "+book+" was activated \nfrom date "+startDate+" to date "+endDate+" \nfor student Id: "+student.getStudentId());
+                student.setActiveRequests(false);
+                studentManager.getActiveRequests().remove(request);
+
+            } else {
+                System.out.println("No matching active request found.");
+            }
+        }else{
+            System.out.println("There is no active request for you.");
+        }
+    }
     //--------------------------------------------------------------------
     public static void main(String[] args) {
         dataFile file = new dataFile();

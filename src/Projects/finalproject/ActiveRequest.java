@@ -1,14 +1,12 @@
 package Projects.finalproject;
 
+import java.time.LocalDate;
 
-import java.io.Serializable;
-
-public class BooksRequested implements Serializable {
+public class ActiveRequest {
     private Student student;
     private Book book;
 
-
-    public BooksRequested(Student student, Book book){
+    public ActiveRequest(Student student, Book book){
         this.student = student;
         this.book = book;
     }

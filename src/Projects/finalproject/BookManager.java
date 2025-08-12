@@ -61,4 +61,11 @@ public class BookManager implements Serializable {
     public int getBooksCount(){
         return books.size();
     }
+
+    @Override
+    public String toString() {
+        return "BookManager{" +
+                "books=" + books +
+                '}';
+    }
 }

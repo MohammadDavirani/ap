@@ -80,8 +80,9 @@ public class MenuHandler implements Serializable {
         String password = scanner.nextLine();
 
         boolean borrowRequest = false;
+        boolean activeRequest = false;
 
-        librarySystem.registerStudent(name, studentId, username, password, borrowRequest);
+        librarySystem.registerStudent(name, studentId, username, password, borrowRequest,activeRequest);
     }
 
     private void handleAdminRegistration(){
@@ -193,10 +194,10 @@ public class MenuHandler implements Serializable {
                     librarySystem.addBook(currentAdminUser);
                     break;
                 case 3:
-                    librarySystem.editBookInformation(currentAdminUser);
+                    librarySystem.editBookInformation();
                     break;
                 case 4:
-                    librarySystem.returnBook(currentUser);
+                    librarySystem.checkingRequest(currentAdminUser);
                     break;
                 case 5:
                     librarySystem.displayAvailableBooks();
@@ -223,10 +224,13 @@ public class MenuHandler implements Serializable {
             System.out.println("4. Return a Book");
             System.out.println("5. View Available Books");
             System.out.println("6. searching Book");
-            System.out.println("7. Logout");
+            if(currentUser.isActiveRequests()){
+                System.out.println("7. Active requests");
+            }
+            System.out.println("8. Logout");
             System.out.print("Please enter your choice: ");
 
-            int choice = getIntInput(1, 7);
+            int choice = getIntInput(1, 8);
 
             switch (choice) {
                 case 1:
@@ -248,7 +252,11 @@ public class MenuHandler implements Serializable {
                 case 6:
                     librarySystem.searchingBook();
                     break;
+
                 case 7:
+                    librarySystem.activeRequests(currentUser);
+                    break;
+                case 8:
                     currentUser = null;
                     System.out.println("Logged out successfully.");
                     return;

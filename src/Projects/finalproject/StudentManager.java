@@ -7,14 +7,18 @@ import java.util.List;
 public class StudentManager implements Serializable {
     private List<Student> students;
     private List<BooksRequested> booksRequested;
+    private List<ActiveRequest> activeRequests;
 
     public StudentManager() {
         this.students = new ArrayList<>();
         this.booksRequested = new ArrayList<>();
+        this.activeRequests = new ArrayList<>();
     }
 
 
-
+    public List<ActiveRequest> getActiveRequests() {
+        return activeRequests;
+    }
     public List<Student> getStudents(){
         return students;
     }
@@ -22,6 +26,9 @@ public class StudentManager implements Serializable {
         return booksRequested;
     }
 
+    public void setActiveRequests(List<ActiveRequest> activeRequests) {
+        this.activeRequests = activeRequests;
+    }
     public void setBooksRequested(List<BooksRequested> booksRequested) {
         this.booksRequested = booksRequested;
     }
@@ -30,13 +37,13 @@ public class StudentManager implements Serializable {
     }
 
     //methods
-    public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest) {
+    public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest, boolean activeRequest) {
         if (isUsernameTaken(username)) {
             System.out.println("This username already exists. Please choose a different username.");
             return;
         }
 
-        Student newStudent = new Student(name, studentId, username, password, borrowRequest);
+        Student newStudent = new Student(name, studentId, username, password, borrowRequest, activeRequest);
         students.add(newStudent);
         System.out.println("Student registration completed successfully.");
     }
