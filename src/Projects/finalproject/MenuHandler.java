@@ -193,7 +193,7 @@ public class MenuHandler implements Serializable {
                     librarySystem.addBook(currentAdminUser);
                     break;
                 case 3:
-                    librarySystem.borrowBook(currentUser);
+                    librarySystem.editBookInformation(currentAdminUser);
                     break;
                 case 4:
                     librarySystem.returnBook(currentUser);

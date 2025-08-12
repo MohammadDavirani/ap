@@ -28,6 +28,22 @@ public class Book implements Serializable {
         return exist;
     }
 
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setYearOfPublishing(String yearOfPublishing) {
+        this.yearOfPublishing = yearOfPublishing;
+    }
+
+    public void setExist(boolean exist) {
+        this.exist = exist;
+    }
+
     @Override
     public String toString() {
         return "Book{" +

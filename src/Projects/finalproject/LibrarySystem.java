@@ -65,7 +65,16 @@ public class LibrarySystem implements Serializable {
     }
     public void addBook(Admin currentAdminUser){
         currentAdminUser.setNumberOfBooksRegistered(currentAdminUser.getNumberOfBooksRegistered()+1);
+        String title,author,yearOfPublishing;
+        boolean exist = true;
+        System.out.println("enter title:");
+        title = scanner.nextLine();
+        System.out.println("enter author:");
+        author = scanner.nextLine();
+        System.out.println("enter year of publishing:");
+        yearOfPublishing = scanner.nextLine();
 
+        bookManager.addBook(author,title,yearOfPublishing,exist);
     }
     public void editStudentInformation(Student student) {
         System.out.println("== Editing box ==");
@@ -221,6 +230,43 @@ public class LibrarySystem implements Serializable {
                 .orElse(null);
     }
 
+    public void editBookInformation(Admin currentAdminUser){
+        Book editBook = searchingBook();
+        System.out.println("=== Edit Book Information Box ===");
+        System.out.println("1. edit title");
+        System.out.println("2. edit author");
+        System.out.println("3. edit year of publishing");
+        System.out.println("4. Exit");
+        System.out.print("Please enter your choice: ");
+
+        int choice = menuHandler.getIntInput(1, 4);
+        switch(choice){
+            case 1:
+                System.out.println("enter new title: ");
+                editBook.setTitle(scanner.nextLine());
+                System.out.println("Book information editing successfully.");
+                break;
+
+            case 2:
+                System.out.println("enter new author: ");
+                editBook.setAuthor(scanner.nextLine());
+                System.out.println("Book information editing successfully.");
+                break;
+
+            case 3:
+                System.out.println("enter new year of publishing: ");
+                editBook.setYearOfPublishing(scanner.nextLine());
+                System.out.println("Book information editing successfully.");
+                break;
+
+            case 4:
+                System.out.println("Exiting");
+                break;
+
+            default:
+                System.out.println("Invalid option! Please try again.");
+        }
+    }
 
     public void informationMode(){
         System.out.println("=== information mode ===");
