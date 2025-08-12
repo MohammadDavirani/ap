@@ -21,10 +21,11 @@ public class MenuHandler implements Serializable {
             System.out.println("2. Student Login");
             System.out.println("3. View Registered Student Count");
             System.out.println("4. Log in as a guest");
-            System.out.println("5. Exit");
+            System.out.println("5. log in as a manager");
+            System.out.println("6. Exit");
             System.out.print("Please enter your choice: ");
 
-            int choice = getIntInput(1, 5);
+            int choice = getIntInput(1, 6);
 
             switch (choice) {
                 case 1:
@@ -40,6 +41,9 @@ public class MenuHandler implements Serializable {
                     handleGuestLogin();
                     break;
                 case 5:
+                    handleManagerRegistration();
+                    break;
+                case 6:
                     System.out.println("Exiting system. Goodbye!");
                     return;
                 default:
@@ -72,6 +76,53 @@ public class MenuHandler implements Serializable {
         boolean borrowRequest = false;
 
         librarySystem.registerStudent(name, studentId, username, password, borrowRequest);
+    }
+
+    private void handleAdminRegistration(){
+        System.out.println("\n--- New Admin Registration ---");
+
+        System.out.print("Username: ");
+        String username = scanner.nextLine();
+
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        librarySystem.registerAdmin(username, password);
+    }
+
+    private void handleManagerRegistration(){
+        System.out.println("=== Manager Menu ===");
+        System.out.println("1. admin registration");
+        System.out.println("2. view admins ");
+        System.out.println("3. view information borrow books ");
+        System.out.println("4. view students information  ");
+        System.out.println("5. Exit");
+        System.out.print("Please enter your choice: ");
+
+        int choice = getIntInput(1, 5);
+
+        switch(choice){
+            case 1:
+                handleAdminRegistration();
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+
+            case 4:
+                break;
+
+            case 5:
+                System.out.println("Exiting");
+                break;
+
+            default:
+                System.out.println("Invalid option! Please try again.");
+        }
+
     }
 
     private void handleStudentLogin() {

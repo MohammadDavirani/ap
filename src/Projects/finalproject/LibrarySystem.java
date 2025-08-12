@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class LibrarySystem implements Serializable {
     private StudentManager studentManager;
+    private AdminManager adminManager;
     private MenuHandler menuHandler;
     private BookManager bookManager;
     private Scanner scanner;
@@ -13,10 +14,10 @@ public class LibrarySystem implements Serializable {
     //--------------------------------------------------------------------
     public LibrarySystem() {
         this.studentManager = new StudentManager();
+        this.adminManager = new AdminManager();
         this.bookManager = new BookManager();
         this.menuHandler = new MenuHandler(this);
         this.scanner = new Scanner(System.in);
-
     }
 
 
@@ -46,6 +47,9 @@ public class LibrarySystem implements Serializable {
     //--------------------------------------------------------------------
     public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest) {
         studentManager.registerStudent(name, studentId, username, password, borrowRequest);
+    }
+    public void registerAdmin(String username, String password){
+        adminManager.registerAdmin(username, password);
     }
     public Student authenticateStudent(String username, String password) {
         return studentManager.authenticateStudent(username, password);
