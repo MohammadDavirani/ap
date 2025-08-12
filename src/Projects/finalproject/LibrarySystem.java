@@ -35,38 +35,107 @@ public class LibrarySystem implements Serializable {
     }
 
     //--------------------------------------------------------------------
-    public void registerStudent(String name, String studentId, String username, String password) {
-        studentManager.registerStudent(name, studentId, username, password);
+    public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest) {
+        studentManager.registerStudent(name, studentId, username, password, borrowRequest);
     }
     public Student authenticateStudent(String username, String password) {
         return studentManager.authenticateStudent(username, password);
     }
     public void editStudentInformation(Student student) {
-        System.out.println("Not implemented.");
+        System.out.println("== Editing box ==");
+        System.out.println("1. edit name");
+        System.out.println("2. edit id");
+        System.out.println("3. edit username");
+        System.out.println("4. edit password");
+        System.out.println("5.Exit");
+        System.out.print("Please enter your choice: ");
+        int choice = menuHandler.getIntInput(1, 5);
+        String newName,newId,newUsername,newPassword;
+
+        switch(choice){
+            case 1:
+                System.out.println("enter new name:");
+                newName = scanner.nextLine();
+                student.setName(newName);
+                System.out.println("Student information editing successfully.");
+                break;
+
+            case 2:
+                System.out.println("enter new Id:");
+                newId = scanner.nextLine();
+                student.setStudentId(newId);
+                System.out.println("Student information editing successfully.");
+                break;
+
+            case 3:
+                System.out.println("enter new Username:");
+                newUsername = scanner.nextLine();
+                student.setUsername(newUsername);
+                System.out.println("Student information editing successfully.");
+                break;
+
+            case 4:
+                System.out.println("enter new Password:");
+                newPassword = scanner.nextLine();
+                student.setPassword(newPassword);
+                System.out.println("Student information editing successfully.");
+                break;
+
+            case 5:
+                System.out.println("Exiting from editing information");
+                break;
+
+            default:
+                System.out.println("Invalid option! Please try again.");
+        }
     }
     public void borrowBook(Student student) {
-        System.out.println("Not implemented.");
+        if(!student.isBorrowRequest()){
+            Book requestBook = searchingBook();
+            if(requestBook == null){
+            }else{
+                if(requestBook.getExist()){
+                    System.out.println("book is available");
+                    System.out.println("Do you want to register your request?(yes/no)");
+                    String question = scanner.nextLine();
+                    if(question.equalsIgnoreCase("yes")){
+                        student.setBorrowRequest(true);
+                        BooksRequested requested = new BooksRequested(student,requestBook);
+                        studentManager.addToRequestList(requested);
+                        System.out.println("The request was successfully submitted. ");
+                    }else{
+                        System.out.println("exit from request");
+                    }
+                }
+                else{
+                    System.out.println("this book is not available");
+                }
+            }
+
+        }else{
+            System.out.println("Book request registration is active for you.");
+        }
     }
     public void returnBook(Student student) {
         System.out.println("Not implemented.");
     }
     public void displayAvailableBooks() {
         bookManager.getBooks().stream().
-                filter(s-> s.getExist()).
+                filter(Book::getExist).
                 forEach(System.out::println);
     }
     public void start() {
         menuHandler.displayMainMenu();
     }
 
-    public void searchingBook(){
+    public Book searchingBook(){
         System.out.println("== searching book box ==");
         System.out.println("1.search by title and author");
         System.out.println("2.search by title and year Of publishing");
         System.out.println("3.search by author and year of publishing");
         System.out.println("4.Exit");
         System.out.print("Please enter your choice: ");
-        int choice = menuHandler.getIntInput(1, 5);
+        int choice = menuHandler.getIntInput(1, 4);
 
         String title,author,yearOfPublishing;
 
@@ -78,23 +147,22 @@ public class LibrarySystem implements Serializable {
                 System.out.println("enter author:");
                 author = scanner.nextLine();
 
-                bookManager.getBooks().stream()
-                        .filter(s -> s.getTitle().equals(title) && s.getAuthor().equals(author))
-                        .forEach(s-> System.out.println(s));
-
-                break;
+                return bookManager.getBooks().stream()
+                        .filter(s -> s.getTitle().equalsIgnoreCase(title.trim()) && s.getAuthor().equalsIgnoreCase(author.trim()))
+                        .findFirst()
+                        .orElse(null);
 
             case 2:
-                System.out.println("enter author:");
-                author = scanner.nextLine();
+                System.out.println("enter title");
+                title = scanner.nextLine();
 
                 System.out.println("enter year Of Publishing:");
                 yearOfPublishing = scanner.nextLine();
 
-                bookManager.getBooks().stream()
-                        .filter(s -> s.getAuthor().equals(author) && s.getYearOfPublishing().equals(yearOfPublishing))
-                        .forEach(s-> System.out.println(s));
-                break;
+                return bookManager.getBooks().stream()
+                        .filter(s -> s.getTitle().equalsIgnoreCase(title.trim()) && s.getYearOfPublishing().equalsIgnoreCase(yearOfPublishing.trim()))
+                        .findFirst()
+                        .orElse(null);
 
             case 3:
                 System.out.println("enter year Of Publishing:");
@@ -103,19 +171,20 @@ public class LibrarySystem implements Serializable {
                 System.out.println("enter author:");
                 author = scanner.nextLine();
 
-                bookManager.getBooks().stream()
-                        .filter(s -> s.getAuthor().equals(author) && s.getYearOfPublishing().equals(yearOfPublishing))
-                        .forEach(s-> System.out.println(s));
-                break;
+                return bookManager.getBooks().stream()
+                        .filter(s -> s.getAuthor().equalsIgnoreCase(author.trim()) && s.getYearOfPublishing().equalsIgnoreCase(yearOfPublishing.trim()))
+                        .findFirst()
+                        .orElse(null);
 
             case 4:
                 System.out.println("exiting");
-                return;
+                break;
 
 
             default:
                 System.out.println("Invalid option! Please try again.");
         }
+        return null;
     }
 
     //--------------------------------------------------------------------

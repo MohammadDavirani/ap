@@ -65,7 +65,9 @@ public class MenuHandler implements Serializable {
         System.out.print("Password: ");
         String password = scanner.nextLine();
 
-        librarySystem.registerStudent(name, studentId, username, password);
+        boolean borrowRequest = false;
+
+        librarySystem.registerStudent(name, studentId, username, password, borrowRequest);
     }
 
     private void handleStudentLogin() {
