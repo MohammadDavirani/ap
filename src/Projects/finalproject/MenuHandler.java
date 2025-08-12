@@ -7,11 +7,13 @@ public class MenuHandler implements Serializable {
     private Scanner scanner;
     private LibrarySystem librarySystem;
     private Student currentUser;
+    private Admin currentAdminUser;
 
     public MenuHandler(LibrarySystem librarySystem) {
         this.librarySystem = librarySystem;
         this.currentUser = null;
         this.scanner = new Scanner(System.in);
+        this.currentAdminUser = null;
     }
 
     public void displayMainMenu() {
@@ -22,10 +24,11 @@ public class MenuHandler implements Serializable {
             System.out.println("3. View Registered Student Count");
             System.out.println("4. Log in as a guest");
             System.out.println("5. log in as a manager");
-            System.out.println("6. Exit");
+            System.out.println("6. log in as an admin");
+            System.out.println("7. Exit");
             System.out.print("Please enter your choice: ");
 
-            int choice = getIntInput(1, 6);
+            int choice = getIntInput(1, 7);
 
             switch (choice) {
                 case 1:
@@ -44,6 +47,9 @@ public class MenuHandler implements Serializable {
                     handleManagerRegistration();
                     break;
                 case 6:
+                    handleAdminLogin();
+                    break;
+                case 7:
                     System.out.println("Exiting system. Goodbye!");
                     return;
                 default:
@@ -141,6 +147,70 @@ public class MenuHandler implements Serializable {
             displayLoggedInStudentMenu();
         } else {
             System.out.println("Invalid username or password. Please try again.");
+        }
+    }
+
+    private void handleAdminLogin(){
+        System.out.println("\n--- Admin Login ---");
+
+        System.out.print("Username: ");
+        String username = scanner.nextLine();
+
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        currentAdminUser = librarySystem.authenticateAdmin(username,password);
+
+        if (currentUser != null) {
+            System.out.println("Login successful! Welcome, " + currentUser.getName());
+            displayLoggedInAdminMenu();
+        } else {
+            System.out.println("Invalid username or password. Please try again.");
+        }
+    }
+
+    private void displayLoggedInAdminMenu(){
+        while (currentAdminUser != null) {
+            System.out.println("\n=== Admin Dashboard ===");
+            System.out.println("1. change password");
+            System.out.println("2. add book");
+            System.out.println("3. edit book information");
+            System.out.println("4. Checking the book loan request");
+            System.out.println("5. View student loan history information");
+            System.out.println("6. Activating and deactivating a student");
+            System.out.println("7. Receiving a borrowed book");
+            System.out.println("8. Logout");
+            System.out.print("Please enter your choice: ");
+
+            int choice = getIntInput(1, 8);
+
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter new password: ");
+                    currentAdminUser.setPassword(scanner.nextLine());
+                    break;
+                case 2:
+                    librarySystem.addBook(currentAdminUser);
+                    break;
+                case 3:
+                    librarySystem.borrowBook(currentUser);
+                    break;
+                case 4:
+                    librarySystem.returnBook(currentUser);
+                    break;
+                case 5:
+                    librarySystem.displayAvailableBooks();
+                    break;
+                case 6:
+                    librarySystem.searchingBook();
+                    break;
+                case 8:
+                    currentUser = null;
+                    System.out.println("Logged out successfully.");
+                    return;
+                default:
+                    System.out.println("Invalid option! Please try again.");
+            }
         }
     }
 

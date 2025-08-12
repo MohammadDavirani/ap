@@ -10,6 +10,14 @@ public class AdminManager {
         this.admins = new ArrayList<>();
     }
 
+    public void setAdmins(List<Admin> admins) {
+        this.admins = admins;
+    }
+
+    public List<Admin> getAdmins() {
+        return admins;
+    }
+
     public void registerAdmin(String username, String password) {
         if (isUsernameTaken(username)) {
             System.out.println("This username already exists. Please choose a different username.");
@@ -23,5 +31,12 @@ public class AdminManager {
 
     private boolean isUsernameTaken(String username) {
         return admins.stream().anyMatch(s -> s.getUsername().equals(username));
+    }
+
+    public Admin authenticateAdmin(String username, String password) {
+        return admins.stream()
+                .filter(s -> s.getUsername().equals(username) && s.getPassword().equals(password))
+                .findFirst()
+                .orElse(null);
     }
 }
