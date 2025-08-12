@@ -20,7 +20,8 @@ public class MenuHandler implements Serializable {
             System.out.println("1. Student Registration");
             System.out.println("2. Student Login");
             System.out.println("3. View Registered Student Count");
-            System.out.println("4. Exit");
+            System.out.println("4. Log in as a guest");
+            System.out.println("5. Exit");
             System.out.print("Please enter your choice: ");
 
             int choice = getIntInput(1, 5);
@@ -36,6 +37,9 @@ public class MenuHandler implements Serializable {
                     displayStudentCount();
                     break;
                 case 4:
+                    handleGuestLogin();
+                    break;
+                case 5:
                     System.out.println("Exiting system. Goodbye!");
                     return;
                 default:
@@ -130,6 +134,37 @@ public class MenuHandler implements Serializable {
                 default:
                     System.out.println("Invalid option! Please try again.");
             }
+        }
+    }
+
+    private void handleGuestLogin(){
+        System.out.println("=== Quest Menu ===");
+        System.out.println("1. View Registered Student Count");
+        System.out.println("2. search a book just title");
+        System.out.println("3. information mode");
+        System.out.println("4. exit");
+        System.out.print("Please enter your choice: ");
+
+        int choice = getIntInput(1, 4);
+
+        switch(choice){
+            case 1:
+                displayStudentCount();
+                break;
+
+            case 2:
+                System.out.println(librarySystem.searchWithTitle());
+                break;
+
+            case 3:
+                break;
+
+            case 4:
+                System.out.println("Exiting quest mode!");
+                break;
+
+            default:
+                System.out.println("Invalid option! Please try again.");
         }
     }
 

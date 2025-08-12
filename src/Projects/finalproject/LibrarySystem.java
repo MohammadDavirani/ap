@@ -18,20 +18,29 @@ public class LibrarySystem implements Serializable {
         this.scanner = new Scanner(System.in);
 
     }
+
+
     public List<Student> getStudents(){
         return this.studentManager.getStudents();
     }
-    public void setStudent(List<Student> students){
-        this.studentManager.setStudents(students);
+    public List<BooksRequested> getRequests(){
+        return this.studentManager.getBooksRequested();
     }
     public List<Book> getBooks(){
         return this.bookManager.getBooks();
     }
-    public void setBook(List<Book> books){
-        this.bookManager.setBooks(books);
-    }
     public int getStudentCount() {
         return this.studentManager.getStudentCount();
+    }
+
+    public void setBookRequests(List<BooksRequested> bookRequests){
+        this.studentManager.setBooksRequested(bookRequests);
+    }
+    public void setStudent(List<Student> students){
+        this.studentManager.setStudents(students);
+    }
+    public void setBook(List<Book> books){
+        this.bookManager.setBooks(books);
     }
 
     //--------------------------------------------------------------------
@@ -185,6 +194,19 @@ public class LibrarySystem implements Serializable {
                 System.out.println("Invalid option! Please try again.");
         }
         return null;
+    }
+    public Book searchWithTitle(){
+        System.out.println("Enter Title:");
+        String title = scanner.nextLine();
+        return bookManager.getBooks().stream()
+                .filter(s->s.getTitle().equalsIgnoreCase(title))
+                .findFirst()
+                .orElse(null);
+    }
+
+
+    public void informationMode(){
+
     }
 
     //--------------------------------------------------------------------
