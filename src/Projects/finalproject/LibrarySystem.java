@@ -206,7 +206,38 @@ public class LibrarySystem implements Serializable {
 
 
     public void informationMode(){
+        System.out.println("=== information mode ===");
+        System.out.println("1. all student count");
+        System.out.println("2. all book count");
+        System.out.println("3. all borrow book count");
+        System.out.println("4. all new borrow book count");
+        System.out.println("5.Exit");
 
+        System.out.print("Please enter your choice: ");
+        int choice = menuHandler.getIntInput(1, 5);
+
+        switch(choice){
+            case 1:
+                System.out.println("all student count : " + getStudentCount());
+                break;
+
+            case 2:
+                System.out.println("all book count : " + getBooks().size());
+                break;
+
+            case 3:
+                break;
+
+            case 4:
+                break;
+
+            case 5:
+                System.out.println("Exiting");
+                break;
+
+            default:
+                System.out.println("Invalid option! Please try again.");
+        }
     }
 
     //--------------------------------------------------------------------

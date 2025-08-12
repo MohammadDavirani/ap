@@ -138,10 +138,10 @@ public class MenuHandler implements Serializable {
     }
 
     private void handleGuestLogin(){
-        System.out.println("=== Quest Menu ===");
+        System.out.println("=== Guest Menu ===");
         System.out.println("1. View Registered Student Count");
         System.out.println("2. search a book just title");
-        System.out.println("3. information mode");
+        System.out.println("3. view all information count");
         System.out.println("4. exit");
         System.out.print("Please enter your choice: ");
 
@@ -157,10 +157,11 @@ public class MenuHandler implements Serializable {
                 break;
 
             case 3:
+                librarySystem.informationMode();
                 break;
 
             case 4:
-                System.out.println("Exiting quest mode!");
+                System.out.println("Exiting guest mode!");
                 break;
 
             default:
