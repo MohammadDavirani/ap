@@ -27,6 +27,9 @@ public class LibrarySystem implements Serializable {
     public List<BooksRequested> getRequests(){
         return this.studentManager.getBooksRequested();
     }
+    public List<Admin> getAdmins(){
+        return this.adminManager.getAdmins();
+    }
     public List<Book> getBooks(){
         return this.bookManager.getBooks();
     }
@@ -39,6 +42,9 @@ public class LibrarySystem implements Serializable {
     }
     public void setStudent(List<Student> students){
         this.studentManager.setStudents(students);
+    }
+    public void setAdmin(List<Admin> admins){
+        this.adminManager.setAdmins(admins);
     }
     public void setBook(List<Book> books){
         this.bookManager.setBooks(books);
@@ -53,6 +59,13 @@ public class LibrarySystem implements Serializable {
     }
     public Student authenticateStudent(String username, String password) {
         return studentManager.authenticateStudent(username, password);
+    }
+    public Admin authenticateAdmin(String username, String password){
+        return adminManager.authenticateAdmin(username, password);
+    }
+    public void addBook(Admin currentAdminUser){
+        currentAdminUser.setNumberOfBooksRegistered(currentAdminUser.getNumberOfBooksRegistered()+1);
+
     }
     public void editStudentInformation(Student student) {
         System.out.println("== Editing box ==");

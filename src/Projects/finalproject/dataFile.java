@@ -10,6 +10,7 @@ public class dataFile implements Serializable {
     private final String studentData = "studentData.bin";
     private final String bookData = "bookData.bin";
     private final String requestBookData = "requestBookData.bin";
+    private final String adminData = "adminData.bin";
 
     public void saveLibraryDataToFile(LibrarySystem system){
         try{
@@ -24,6 +25,10 @@ public class dataFile implements Serializable {
             ObjectOutputStream oos3 = new ObjectOutputStream(Files.newOutputStream(Paths.get(requestBookData)));
             oos3.writeObject(system.getRequests());
             oos3.close();
+
+            ObjectOutputStream oos4 = new ObjectOutputStream(Files.newOutputStream(Paths.get(adminData)));
+            oos4.writeObject(system.getAdmins());
+            oos4.close();
 
         }catch(IOException e){
             System.out.println("Error" + e.getMessage());
@@ -43,6 +48,10 @@ public class dataFile implements Serializable {
             ObjectInputStream ois3 = new ObjectInputStream(Files.newInputStream(Paths.get(requestBookData)));
             system.setBookRequests((List<BooksRequested>) ois3.readObject());
             ois3.close();
+
+            ObjectInputStream ois4 = new ObjectInputStream(Files.newInputStream(Paths.get(adminData)));
+            system.setAdmin((List<Admin>) ois4.readObject());
+            ois4.close();
         }catch(IOException e){
             System.out.println("Error" + e.getMessage());
         } catch (ClassNotFoundException e) {
