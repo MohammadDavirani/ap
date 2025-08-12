@@ -8,13 +8,22 @@ public class StudentManager implements Serializable {
     private List<Student> students;
     private List<BooksRequested> booksRequested;
 
-
     public StudentManager() {
         this.students = new ArrayList<>();
         this.booksRequested = new ArrayList<>();
     }
+
+
+
     public List<Student> getStudents(){
         return students;
+    }
+    public List<BooksRequested> getBooksRequested() {
+        return booksRequested;
+    }
+
+    public void setBooksRequested(List<BooksRequested> booksRequested) {
+        this.booksRequested = booksRequested;
     }
     public void setStudents(List<Student> students) {
         this.students = students;
@@ -32,9 +41,6 @@ public class StudentManager implements Serializable {
         System.out.println("Student registration completed successfully.");
     }
 
-    public List<BooksRequested> getAllRequests() {
-        return new ArrayList<>(booksRequested);
-    }
     public void addToRequestList(BooksRequested booksRequested){
         this.booksRequested.add(booksRequested);
     }
