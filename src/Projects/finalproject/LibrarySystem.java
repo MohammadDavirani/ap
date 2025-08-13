@@ -608,6 +608,84 @@ public class LibrarySystem implements Serializable {
             }
         }
     }
+    public void statisticalInformationBorrowedBooks(){
+        System.out.println("=== Statistical Information About Borrowed books ===");
+        System.out.println("1. Number of registered loan requests");
+        System.out.println("2. Total number of loans given");
+        System.out.println("3. Average number of days the book was borrowed");
+        System.out.println("4.Exit");
+        System.out.print("Please enter your choice: ");
+        int choice = menuHandler.getIntInput(1, 4);
+
+        switch(choice){
+            case 1:
+                System.out.println("Total loan requests : "+ studentManager.getBooksRequested().size());
+                break;
+
+            case 2:
+                int size = 0;
+                for(Book book : bookManager.getBooks()){
+                    if(!book.getExist()){
+                        size++;
+                    }
+                }
+                System.out.println("Total loans given : "+size);
+                break;
+
+            case 3:
+                long sum=0;
+                long div =0;
+                for(int i=0;i<studentManager.getStudents().size();i++){
+                    Student student = studentManager.getStudents().get(i);
+
+                    LocalDate startDate;
+                    LocalDate endDate;
+                    for(int j=0;j<student.getLoanBooks().size();j++){
+                        startDate = student.getBorrowDate().get(i);
+                        endDate = student.getReturnDate().get(i);
+                        long temp = ChronoUnit.DAYS.between(startDate, endDate);
+                        sum = sum +temp;
+                        div++;
+                    }
+                    System.out.println("Average number of days is : "+ sum/div);
+                }
+                break;
+
+            case 4:
+                System.out.println("Exiting");
+                break;
+
+            default:
+                System.out.println("Invalid option! Please try again.");
+        }
+    }
+    public void statisticalInformationAboutStudents(){
+        System.out.println("=== Statistical Information About Students ===");
+        System.out.println("1. number of book loans");
+        System.out.println("2. view of student activity");
+        System.out.println("3. view of book loans");
+        System.out.println("3. view of book loans");
+        System.out.println("4.Exit");
+        System.out.print("Please enter your choice: ");
+        int choice = menuHandler.getIntInput(1, 4);
+        switch(choice){
+            case 1:
+
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+
+            case 4:
+                break;
+
+            default:
+                System.out.println("Invalid option! Please try again.");
+        }
+    }
     //--------------------------------------------------------------------
     public static void main(String[] args) {
         dataFile file = new dataFile();
