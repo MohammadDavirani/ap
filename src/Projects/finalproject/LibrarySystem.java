@@ -53,8 +53,8 @@ public class LibrarySystem implements Serializable {
     }
 
     //--------------------------------------------------------------------
-    public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest,boolean activeRequest,boolean active) {
-        studentManager.registerStudent(name, studentId, username, password, borrowRequest,activeRequest,active);
+    public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest,boolean activeRequest,boolean active,boolean returnRequest) {
+        studentManager.registerStudent(name, studentId, username, password, borrowRequest,activeRequest,active,returnRequest);
     }
     public void registerAdmin(String username, String password){
         adminManager.registerAdmin(username, password);
@@ -131,6 +131,7 @@ public class LibrarySystem implements Serializable {
             if(!student.isBorrowRequest()){
                 Book requestBook = searchingBook();
                 if(requestBook == null){
+                    System.out.println("Book not found.");
                 }else{
                     if(requestBook.getExist()){
                         System.out.println("book is available");
@@ -159,7 +160,32 @@ public class LibrarySystem implements Serializable {
         }
     }
     public void returnBook(Student student) {
-        System.out.println("Not implemented.");
+        if(student.isActive()){
+            if(!student.isReturnRequest()){
+                System.out.println("Enter the title of the book you want to return: ");
+                String title = scanner.nextLine();
+                Book book = student.getLoanBooks().stream()
+                        .filter(s->s.getTitle().equalsIgnoreCase(title))
+                        .findFirst()
+                        .orElse(null);
+
+                if(book!=null){
+                    ReturnBooksRequested returnBooksRequested = new ReturnBooksRequested(student,book);
+                    studentManager.addToReturnRequestList(returnBooksRequested);
+                    student.setReturnRequest(true);
+                    System.out.println("The request was successfully submitted. ");
+                }
+                else{
+                    System.out.println("No book with this name was found.");
+                }
+            }
+            else{
+                System.out.println("Book return registration is active for you.");
+            }
+        }
+        else{
+            System.out.println("Your account is inactive.");
+        }
     }
     public void displayAvailableBooks() {
         bookManager.getBooks().stream().
@@ -311,6 +337,7 @@ public class LibrarySystem implements Serializable {
                         ActiveRequest activeRequest = new ActiveRequest(requested.getStudent(),requested.getBook());
                         List<ActiveRequest> activeRequests = studentManager.getActiveRequests();
                         activeRequests.add(activeRequest);
+                        studentManager.removeRequest(requested);
                     } else {
                         System.out.println("Book is not available!");
                     }
@@ -491,7 +518,57 @@ public class LibrarySystem implements Serializable {
         }
     }
 
+    public void receivingBooks(Admin currentAdminUser){
+        while (true) {
+            List<ReturnBooksRequested> list = studentManager.getReturnBooksRequested().stream()
+                    .filter(s -> !s.getBook().getExist())
+                    .collect(Collectors.toList());
 
+            if (list.isEmpty()) {
+                System.out.println("No Return requests found.");
+                return;
+            }
+
+            System.out.println("\n--- Return Requests ---");
+            for (ReturnBooksRequested requested : list) {
+                System.out.println(requested);
+            }
+
+            System.out.print("\nEnter student id: ");
+            String studentId = scanner.nextLine().trim();
+
+            ReturnBooksRequested requested = list.stream()
+                    .filter(s -> s.getStudent().getStudentId().equalsIgnoreCase(studentId))
+                    .findFirst()
+                    .orElse(null);
+
+            if (requested == null) {
+                System.out.println("Student ID not found in return requests.");
+            } else {
+                LocalDate returnDate = LocalDate.now();
+                int bookIndex = requested.getStudent().getLoanBooks().indexOf(requested.getBook());
+                if (bookIndex != -1) {
+                    requested.getStudent().getReturnDate().set(bookIndex, returnDate);
+                }
+
+                requested.getBook().setExist(true);
+                requested.getStudent().setReturnRequest(false);
+
+                currentAdminUser.setNumberOfBooksReceived(
+                        currentAdminUser.getNumberOfBooksReceived() + 1
+                );
+
+                studentManager.removeReturnRequest(requested);
+                System.out.println("Book returned successfully on " + returnDate);
+            }
+
+            System.out.print("\nPress 'q' to exit or any other key to continue: ");
+            String choice = scanner.nextLine().trim();
+            if ("q".equalsIgnoreCase(choice)) {
+                break;
+            }
+        }
+    }
     //--------------------------------------------------------------------
     public static void main(String[] args) {
         dataFile file = new dataFile();

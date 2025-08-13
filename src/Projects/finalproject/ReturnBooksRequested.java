@@ -2,12 +2,12 @@ package Projects.finalproject;
 
 import java.io.Serializable;
 
-public class BooksRequested implements Serializable {
+public class ReturnBooksRequested implements Serializable {
     private Student student;
     private Book book;
 
 
-    public BooksRequested(Student student, Book book){
+    public ReturnBooksRequested(Student student, Book book){
         this.student = student;
         this.book = book;
     }

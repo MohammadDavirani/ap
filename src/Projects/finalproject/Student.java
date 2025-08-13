@@ -11,13 +11,14 @@ public class Student implements Serializable {
     private String username;
     private String password;
     private boolean borrowRequest;
+    private boolean returnRequest;
     private boolean activeRequests;
     private List<Book> loanBooks;
     private List<LocalDate> borrowDate;
     private List<LocalDate> returnDate;
     private boolean active;
 
-    public Student(String name, String studentId, String username, String password ,boolean borrowRequest, boolean activeReq,boolean active) {
+    public Student(String name, String studentId, String username, String password ,boolean borrowRequest, boolean activeReq,boolean active,boolean returnRequest) {
         this.name = name;
         this.studentId = studentId;
         this.username = username;
@@ -27,16 +28,16 @@ public class Student implements Serializable {
         this.loanBooks = new ArrayList<>();
         this.borrowDate = new ArrayList<>();
         this.returnDate = new ArrayList<>();
+        this.active = active;
+        this.returnRequest = returnRequest;
     }
 
+    public boolean isReturnRequest() {
+        return returnRequest;
+    }
     public boolean isActive() {
         return active;
     }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     public List<LocalDate> getBorrowDate() {
         return borrowDate;
     }
@@ -65,6 +66,12 @@ public class Student implements Serializable {
         return activeRequests;
     }
 
+    public void setReturnRequest(boolean returnRequest) {
+        this.returnRequest = returnRequest;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
     public void setReturnDate(List<LocalDate> returnDate) {
         this.returnDate = returnDate;
     }

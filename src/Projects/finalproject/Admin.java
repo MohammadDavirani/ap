@@ -5,12 +5,14 @@ public class Admin {
     private String password;
     private int numberOfBooksRegistered;
     private int numberOfBooksLoaned;
+    private int numberOfBooksReceived;
 
     public Admin(String username, String password){
         this.username = username;
         this.password = password;
         this.numberOfBooksRegistered = 0;
         this.numberOfBooksLoaned = 0;
+        this.numberOfBooksReceived =0;
     }
 
     public String getUsername() {
@@ -25,8 +27,15 @@ public class Admin {
     public int getNumberOfBooksLoaned() {
         return numberOfBooksLoaned;
     }
+    public int getNumberOfBooksReceived() {
+        return numberOfBooksReceived;
+    }
 
 
+
+    public void setNumberOfBooksReceived(int numberOfBooksReceived) {
+        this.numberOfBooksReceived = numberOfBooksReceived;
+    }
     public void setNumberOfBooksLoaned(int numberOfBooksLoaned) {
         this.numberOfBooksLoaned = numberOfBooksLoaned;
     }

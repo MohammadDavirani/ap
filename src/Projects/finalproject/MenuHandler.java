@@ -80,10 +80,11 @@ public class MenuHandler implements Serializable {
         String password = scanner.nextLine();
 
         boolean borrowRequest = false;
+        boolean returnRequest = false;
         boolean activeRequest = false;
         boolean active = true;
 
-        librarySystem.registerStudent(name, studentId, username, password, borrowRequest,activeRequest, active);
+        librarySystem.registerStudent(name, studentId, username, password, borrowRequest,activeRequest, active,returnRequest);
     }
 
     private void handleAdminRegistration(){
@@ -205,6 +206,9 @@ public class MenuHandler implements Serializable {
                     break;
                 case 6:
                     librarySystem.activeAndDeactivateStudent();
+                    break;
+                case 7:
+                    librarySystem.receivingBooks(currentAdminUser);
                     break;
                 case 8:
                     currentUser = null;

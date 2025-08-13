@@ -7,12 +7,14 @@ import java.util.List;
 public class StudentManager implements Serializable {
     private List<Student> students;
     private List<BooksRequested> booksRequested;
+    private List<ReturnBooksRequested> returnBooksRequested;
     private List<ActiveRequest> activeRequests;
 
     public StudentManager() {
         this.students = new ArrayList<>();
         this.booksRequested = new ArrayList<>();
         this.activeRequests = new ArrayList<>();
+        this.returnBooksRequested = new ArrayList<>();
     }
 
 
@@ -25,7 +27,14 @@ public class StudentManager implements Serializable {
     public List<BooksRequested> getBooksRequested() {
         return booksRequested;
     }
+    public List<ReturnBooksRequested> getReturnBooksRequested() {
+        return returnBooksRequested;
+    }
 
+
+    public void setReturnBooksRequested(List<ReturnBooksRequested> returnBooksRequested) {
+        this.returnBooksRequested = returnBooksRequested;
+    }
     public void setActiveRequests(List<ActiveRequest> activeRequests) {
         this.activeRequests = activeRequests;
     }
@@ -37,13 +46,13 @@ public class StudentManager implements Serializable {
     }
 
     //methods
-    public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest, boolean activeRequest,boolean active) {
+    public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest, boolean activeRequest,boolean active , boolean returnRequest) {
         if (isUsernameTaken(username)) {
             System.out.println("This username already exists. Please choose a different username.");
             return;
         }
 
-        Student newStudent = new Student(name, studentId, username, password, borrowRequest, activeRequest, active);
+        Student newStudent = new Student(name, studentId, username, password, borrowRequest, activeRequest, active,returnRequest);
         students.add(newStudent);
         System.out.println("Student registration completed successfully.");
     }
@@ -53,6 +62,13 @@ public class StudentManager implements Serializable {
     }
     public void removeRequest(BooksRequested request) {
         this.booksRequested.remove(request);
+    }
+
+    public void addToReturnRequestList(ReturnBooksRequested returnBooksRequested){
+        this.returnBooksRequested.add(returnBooksRequested);
+    }
+    public void removeReturnRequest(ReturnBooksRequested returnBooksRequested) {
+        this.returnBooksRequested.remove(returnBooksRequested);
     }
 
     public Student authenticateStudent(String username, String password) {
