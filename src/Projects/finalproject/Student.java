@@ -15,17 +15,26 @@ public class Student implements Serializable {
     private List<Book> loanBooks;
     private List<LocalDate> borrowDate;
     private List<LocalDate> returnDate;
+    private boolean active;
 
-    public Student(String name, String studentId, String username, String password ,boolean borrowRequest, boolean active) {
+    public Student(String name, String studentId, String username, String password ,boolean borrowRequest, boolean activeReq,boolean active) {
         this.name = name;
         this.studentId = studentId;
         this.username = username;
         this.password = password;
         this.borrowRequest = borrowRequest;
-        this.activeRequests = active;
+        this.activeRequests = activeReq;
         this.loanBooks = new ArrayList<>();
         this.borrowDate = new ArrayList<>();
         this.returnDate = new ArrayList<>();
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public List<LocalDate> getBorrowDate() {

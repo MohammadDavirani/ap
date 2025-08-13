@@ -81,8 +81,9 @@ public class MenuHandler implements Serializable {
 
         boolean borrowRequest = false;
         boolean activeRequest = false;
+        boolean active = true;
 
-        librarySystem.registerStudent(name, studentId, username, password, borrowRequest,activeRequest);
+        librarySystem.registerStudent(name, studentId, username, password, borrowRequest,activeRequest, active);
     }
 
     private void handleAdminRegistration(){
@@ -203,7 +204,7 @@ public class MenuHandler implements Serializable {
                     librarySystem.studentLoanHistoryInfo();
                     break;
                 case 6:
-                    librarySystem.searchingBook();
+                    librarySystem.activeAndDeactivateStudent();
                     break;
                 case 8:
                     currentUser = null;

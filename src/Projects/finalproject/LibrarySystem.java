@@ -2,7 +2,6 @@ package Projects.finalproject;
 
 import java.io.Serializable;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -54,8 +53,8 @@ public class LibrarySystem implements Serializable {
     }
 
     //--------------------------------------------------------------------
-    public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest,boolean activeRequest) {
-        studentManager.registerStudent(name, studentId, username, password, borrowRequest,activeRequest);
+    public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest,boolean activeRequest,boolean active) {
+        studentManager.registerStudent(name, studentId, username, password, borrowRequest,activeRequest,active);
     }
     public void registerAdmin(String username, String password){
         adminManager.registerAdmin(username, password);
@@ -128,30 +127,35 @@ public class LibrarySystem implements Serializable {
         }
     }
     public void borrowBook(Student student) {
-        if(!student.isBorrowRequest()){
-            Book requestBook = searchingBook();
-            if(requestBook == null){
-            }else{
-                if(requestBook.getExist()){
-                    System.out.println("book is available");
-                    System.out.println("Do you want to register your request?(yes/no)");
-                    String question = scanner.nextLine();
-                    if(question.equalsIgnoreCase("yes")){
-                        student.setBorrowRequest(true);
-                        BooksRequested requested = new BooksRequested(student,requestBook);
-                        studentManager.addToRequestList(requested);
-                        System.out.println("The request was successfully submitted. ");
-                    }else{
-                        System.out.println("exit from request");
+        if(student.isActive()){
+            if(!student.isBorrowRequest()){
+                Book requestBook = searchingBook();
+                if(requestBook == null){
+                }else{
+                    if(requestBook.getExist()){
+                        System.out.println("book is available");
+                        System.out.println("Do you want to register your request?(yes/no)");
+                        String question = scanner.nextLine();
+                        if(question.equalsIgnoreCase("yes")){
+                            student.setBorrowRequest(true);
+                            BooksRequested requested = new BooksRequested(student,requestBook);
+                            studentManager.addToRequestList(requested);
+                            System.out.println("The request was successfully submitted. ");
+                        }else{
+                            System.out.println("exit from request");
+                        }
+                    }
+                    else{
+                        System.out.println("this book is not available");
                     }
                 }
-                else{
-                    System.out.println("this book is not available");
-                }
-            }
 
-        }else{
-            System.out.println("Book request registration is active for you.");
+            }else{
+                System.out.println("Book request registration is active for you.");
+            }
+        }
+        else{
+            System.out.println("Your account is inactive.");
         }
     }
     public void returnBook(Student student) {
@@ -452,6 +456,42 @@ public class LibrarySystem implements Serializable {
             }
         }
     }
+    public void activeAndDeactivateStudent(){
+        System.out.println("Enter Student id: ");
+        String studentId = scanner.nextLine();
+
+        Student student = studentManager.getStudents().stream()
+                .filter(s->s.getStudentId().equalsIgnoreCase(studentId))
+                .findFirst()
+                .orElse(null);
+
+        if(student != null){
+            System.out.println("1. Activating");
+            System.out.println("2. Deactivating");
+            System.out.println("3.Exit");
+            System.out.print("Please enter your choice: ");
+            int choice = menuHandler.getIntInput(1, 3);
+            switch(choice){
+                case 1:
+                    student.setActive(true);
+                    System.out.println("Activated");
+                    break;
+                case 2:
+                    student.setActive(false);
+                    System.out.println("Deactivated");
+                    break;
+                case 3:
+                    System.out.println("Exiting");
+                    break;
+                default:
+                    System.out.println("Invalid option! Please try again.");
+            }
+        }else{
+            System.out.println("incorrect student id. Please try again");
+        }
+    }
+
+
     //--------------------------------------------------------------------
     public static void main(String[] args) {
         dataFile file = new dataFile();

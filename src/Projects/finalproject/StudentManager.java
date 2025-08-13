@@ -37,13 +37,13 @@ public class StudentManager implements Serializable {
     }
 
     //methods
-    public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest, boolean activeRequest) {
+    public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest, boolean activeRequest,boolean active) {
         if (isUsernameTaken(username)) {
             System.out.println("This username already exists. Please choose a different username.");
             return;
         }
 
-        Student newStudent = new Student(name, studentId, username, password, borrowRequest, activeRequest);
+        Student newStudent = new Student(name, studentId, username, password, borrowRequest, activeRequest, active);
         students.add(newStudent);
         System.out.println("Student registration completed successfully.");
     }
