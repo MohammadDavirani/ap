@@ -200,7 +200,7 @@ public class MenuHandler implements Serializable {
                     librarySystem.checkingRequest(currentAdminUser);
                     break;
                 case 5:
-                    librarySystem.displayAvailableBooks();
+                    librarySystem.studentLoanHistoryInfo();
                     break;
                 case 6:
                     librarySystem.searchingBook();

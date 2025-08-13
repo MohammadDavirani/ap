@@ -1,6 +1,7 @@
 package Projects.finalproject;
 
 import java.io.Serializable;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,7 +14,6 @@ public class LibrarySystem implements Serializable {
     private MenuHandler menuHandler;
     private BookManager bookManager;
     private Scanner scanner;
-    private Student student;
     //--------------------------------------------------------------------
     public LibrarySystem() {
         this.studentManager = new StudentManager();
@@ -381,6 +381,75 @@ public class LibrarySystem implements Serializable {
             }
         }else{
             System.out.println("There is no active request for you.");
+        }
+    }
+    public void studentLoanHistoryInfo(){
+        while(true){
+            System.out.println("Enter Student Id:");
+            String id = scanner.nextLine();
+
+            Student student = studentManager.getStudents().stream()
+                    .filter(s->s.getStudentId().equalsIgnoreCase(id))
+                    .findFirst()
+                    .orElse(null);
+
+            if(student!=null){
+                System.out.println("=== View Student Loan History Information Box ===");
+                System.out.println("1. loan history");
+                System.out.println("2. Total number of loan");
+                System.out.println("3. Total number of undelivered books");
+                System.out.println("4. Total number of overdue books returned");
+                System.out.println("5. Exit");
+                System.out.print("Please enter your choice: ");
+
+                int choice = menuHandler.getIntInput(1, 8);
+                int totalBookLoan = student.getLoanBooks().size();
+                switch(choice){
+                    case 1:
+                        for(int i=0;i<totalBookLoan;i++){
+                            System.out.format("%d.",i+1);
+                            System.out.println(student.getLoanBooks().get(i));
+                            System.out.print("Borrow date: "+student.getBorrowDate().get(i) + "return date: " + student.getReturnDate().get(i));
+                        }
+                        break;
+
+                    case 2:
+                        System.out.println("total number of loan books is : "+ totalBookLoan);
+                        break;
+
+                    case 3:
+                        int totalUndeliveredBook = 0;
+                        int size = Math.min(student.getLoanBooks().size(), student.getBorrowDate().size());
+
+                        for (int i = 0; i < size; i++) {
+                            Book book = student.getLoanBooks().get(i);
+                            LocalDate borrowDate = student.getBorrowDate().get(i);
+
+                            long daysBetween = ChronoUnit.DAYS.between(borrowDate, LocalDate.now());
+
+                            if (daysBetween > 20) {
+                                System.out.println(book + " - Borrowed " + daysBetween + " days ago");
+                                totalUndeliveredBook++;
+                            }
+                        }
+
+                        System.out.println("Total undelivered books: " + totalUndeliveredBook);
+                        break;
+
+                    case 4:
+                        break;
+
+                    case 5:
+                        System.out.println("Exiting.");
+                        return;
+
+                    default:
+                        System.out.println("Invalid option! Please try again.");
+                }
+            }
+            else{
+                System.out.println("Student with this id not found. Please try again");
+            }
         }
     }
     //--------------------------------------------------------------------
