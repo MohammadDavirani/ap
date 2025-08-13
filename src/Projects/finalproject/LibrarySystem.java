@@ -569,6 +569,45 @@ public class LibrarySystem implements Serializable {
             }
         }
     }
+    public void viewAdminPerformance(){
+        System.out.println("Enter admin username: ");
+        String username = scanner.nextLine();
+        Admin admin = adminManager.getAdmins().stream()
+                        .filter(s->s.getUsername().equalsIgnoreCase(username))
+                                .findFirst()
+                                        .orElse(null);
+
+        if(admin != null){
+            System.out.println("=== Admin Performance Box ===");
+            System.out.println("1. number Of Books Registered");
+            System.out.println("2. number Of Books Loaned");
+            System.out.println("3. number Of Books Received");
+            System.out.println("4.Exit");
+            System.out.print("Please enter your choice: ");
+            int choice = menuHandler.getIntInput(1, 4);
+
+            switch(choice){
+                case 1:
+                    System.out.println("Total : "+admin.getNumberOfBooksRegistered());
+                    break;
+
+                case 2:
+                    System.out.println("Total : "+admin.getNumberOfBooksLoaned());
+                    break;
+
+                case 3:
+                    System.out.println("Total : "+admin.getNumberOfBooksReceived());
+                    break;
+
+                case 4:
+                    System.out.println("exiting");
+                    break;
+
+                default:
+                    System.out.println("Invalid option! Please try again.");
+            }
+        }
+    }
     //--------------------------------------------------------------------
     public static void main(String[] args) {
         dataFile file = new dataFile();

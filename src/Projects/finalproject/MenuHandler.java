@@ -102,7 +102,7 @@ public class MenuHandler implements Serializable {
     private void handleManagerRegistration(){
         System.out.println("=== Manager Menu ===");
         System.out.println("1. admin registration");
-        System.out.println("2. view admins ");
+        System.out.println("2. View admin performance ");
         System.out.println("3. view information borrow books ");
         System.out.println("4. view students information  ");
         System.out.println("5. Exit");
@@ -116,6 +116,7 @@ public class MenuHandler implements Serializable {
                 break;
 
             case 2:
+                librarySystem.viewAdminPerformance();
                 break;
 
             case 3:
