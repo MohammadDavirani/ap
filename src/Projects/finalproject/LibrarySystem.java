@@ -2,6 +2,7 @@ package Projects.finalproject;
 
 import java.io.Serializable;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -23,6 +24,12 @@ public class LibrarySystem implements Serializable {
     }
 
 
+    public List<ActiveRequest> getActiveRequests(){
+        return this.studentManager.getActiveRequests();
+    }
+    public List<ReturnBooksRequested> getReturnBooksRequested(){
+        return this.studentManager.getReturnBooksRequested();
+    }
     public List<Student> getStudents(){
         return this.studentManager.getStudents();
     }
@@ -39,6 +46,12 @@ public class LibrarySystem implements Serializable {
         return this.studentManager.getStudentCount();
     }
 
+    public void setActiveRequests(List<ActiveRequest> ActiveRequests){
+        this.studentManager.setActiveRequests(ActiveRequests);
+    }
+    public void setReturnBooksRequested(List<ReturnBooksRequested> ReturnBooksRequested){
+        this.studentManager.setReturnBooksRequested(ReturnBooksRequested);
+    }
     public void setBookRequests(List<BooksRequested> bookRequests){
         this.studentManager.setBooksRequested(bookRequests);
     }
@@ -51,6 +64,7 @@ public class LibrarySystem implements Serializable {
     public void setBook(List<Book> books){
         this.bookManager.setBooks(books);
     }
+
 
     //--------------------------------------------------------------------
     public void registerStudent(String name, String studentId, String username, String password, boolean borrowRequest,boolean activeRequest,boolean active,boolean returnRequest) {
@@ -374,9 +388,20 @@ public class LibrarySystem implements Serializable {
                 break;
 
             case 3:
+                long sum = studentManager.getStudents().stream()
+                        .mapToLong(student -> student.getLoanBooks().size())
+                        .sum();
+
+                System.out.println("all borrow books count is : " + sum);
                 break;
 
             case 4:
+                long count = studentManager.getStudents().stream().
+                        filter(student -> student.getReturnDate()==null)
+                                .count();
+
+                System.out.println("current borrowed books count is : " + count);
+
                 break;
 
             case 5:
@@ -401,7 +426,7 @@ public class LibrarySystem implements Serializable {
                 LocalDate startDate = LocalDate.now();
                 LocalDate endDate = startDate.plusDays(20);
 
-                student.addLoan(book, startDate, endDate);
+                student.addLoan(book, startDate, null);
 
                 System.out.println("The book with the specifications: "+book+" was activated \nfrom date "+startDate+" to date "+endDate+" \nfor student Id: "+student.getStudentId());
                 student.setActiveRequests(false);
@@ -661,16 +686,40 @@ public class LibrarySystem implements Serializable {
     }
     public void statisticalInformationAboutStudents(){
         System.out.println("=== Statistical Information About Students ===");
-        System.out.println("1. number of book loans");
-        System.out.println("2. view of student activity");
-        System.out.println("3. view of book loans");
-        System.out.println("3. view of book loans");
+        System.out.println("1. 10 students with the most delays in returning books");
         System.out.println("4.Exit");
         System.out.print("Please enter your choice: ");
         int choice = menuHandler.getIntInput(1, 4);
         switch(choice){
             case 1:
+                System.out.println("10 students with the most");
+                List<Student> studentTemps = new ArrayList<>(studentManager.getStudents());
 
+                studentTemps.removeIf(s -> s.getLoanBooks().isEmpty());
+
+                studentTemps.sort((s1, s2) -> {
+                    int maxDays1 = s1.getLoanBooks().stream()
+                            .filter(Book::getExist)
+                            .mapToInt(b -> (int) ChronoUnit.DAYS.between(
+                                    s1.getBorrowDate().get(s1.getLoanBooks().indexOf(b)),
+                                    s1.getReturnDate().get(s1.getLoanBooks().indexOf(b))
+                            ))
+                            .max().orElse(0);
+
+                    int maxDays2 = s2.getLoanBooks().stream()
+                            .filter(Book::getExist)
+                            .mapToInt(b -> (int) ChronoUnit.DAYS.between(
+                                    s2.getBorrowDate().get(s2.getLoanBooks().indexOf(b)),
+                                    s2.getReturnDate().get(s2.getLoanBooks().indexOf(b))
+                            ))
+                            .max().orElse(0);
+
+                    return Integer.compare(maxDays2, maxDays1);
+                });
+
+                for (int i = 0; i < Math.min(10, studentTemps.size()); i++) {
+                    System.out.println((i+1) + " ==> " + studentTemps.get(i));
+                }
                 break;
 
             case 2:

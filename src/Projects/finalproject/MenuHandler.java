@@ -1,6 +1,7 @@
 package Projects.finalproject;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuHandler implements Serializable {
@@ -8,6 +9,7 @@ public class MenuHandler implements Serializable {
     private LibrarySystem librarySystem;
     private Student currentUser;
     private Admin currentAdminUser;
+
 
     public MenuHandler(LibrarySystem librarySystem) {
         this.librarySystem = librarySystem;
@@ -278,7 +280,7 @@ public class MenuHandler implements Serializable {
         System.out.println("=== Guest Menu ===");
         System.out.println("1. View Registered Student Count");
         System.out.println("2. search a book just title");
-        System.out.println("3. view all information count");
+        System.out.println("3. view all statistical information count");
         System.out.println("4. exit");
         System.out.print("Please enter your choice: ");
 
@@ -290,7 +292,12 @@ public class MenuHandler implements Serializable {
                 break;
 
             case 2:
-                System.out.println(librarySystem.searchWithTitle());
+                if(librarySystem.searchWithTitle()!=null){
+                    System.out.println(librarySystem.searchWithTitle());
+                }
+                else{
+                    System.out.println("The title entered does not exist.");
+                }
                 break;
 
             case 3:

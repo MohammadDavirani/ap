@@ -11,6 +11,8 @@ public class dataFile implements Serializable {
     private final String bookData = "bookData.bin";
     private final String requestBookData = "requestBookData.bin";
     private final String adminData = "adminData.bin";
+    private final String activeRequestData = "activeRequestData.bin";
+    private final String returnBooksRequestedData = "returnBooksRequestedData.bin";
 
     public void saveLibraryDataToFile(LibrarySystem system){
         try{
@@ -29,6 +31,14 @@ public class dataFile implements Serializable {
             ObjectOutputStream oos4 = new ObjectOutputStream(Files.newOutputStream(Paths.get(adminData)));
             oos4.writeObject(system.getAdmins());
             oos4.close();
+
+            ObjectOutputStream oos5 = new ObjectOutputStream(Files.newOutputStream(Paths.get(activeRequestData)));
+            oos5.writeObject(system.getActiveRequests());
+            oos5.close();
+
+            ObjectOutputStream oos6 = new ObjectOutputStream(Files.newOutputStream(Paths.get(returnBooksRequestedData)));
+            oos6.writeObject(system.getReturnBooksRequested());
+            oos6.close();
 
         }catch(IOException e){
             System.out.println("Error" + e.getMessage());
@@ -52,6 +62,15 @@ public class dataFile implements Serializable {
             ObjectInputStream ois4 = new ObjectInputStream(Files.newInputStream(Paths.get(adminData)));
             system.setAdmin((List<Admin>) ois4.readObject());
             ois4.close();
+
+            ObjectInputStream ois5 = new ObjectInputStream(Files.newInputStream(Paths.get(activeRequestData)));
+            system.setActiveRequests((List<ActiveRequest>) ois5.readObject());
+            ois5.close();
+
+            ObjectInputStream ois6 = new ObjectInputStream(Files.newInputStream(Paths.get(returnBooksRequestedData)));
+            system.setReturnBooksRequested((List<ReturnBooksRequested>) ois6.readObject());
+            ois6.close();
+
         }catch(IOException e){
             System.out.println("Error" + e.getMessage());
         } catch (ClassNotFoundException e) {

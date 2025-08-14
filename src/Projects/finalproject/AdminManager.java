@@ -1,9 +1,10 @@
 package Projects.finalproject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminManager {
+public class AdminManager implements Serializable {
     private List<Admin> admins;
 
     public AdminManager(){

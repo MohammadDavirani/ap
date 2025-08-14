@@ -1,8 +1,9 @@
 package Projects.finalproject;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class ActiveRequest {
+public class ActiveRequest implements Serializable {
     private Student student;
     private Book book;
 
