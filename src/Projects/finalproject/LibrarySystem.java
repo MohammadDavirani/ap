@@ -693,12 +693,13 @@ public class LibrarySystem implements Serializable {
     public void statisticalInformationAboutStudents(){
         System.out.println("=== Statistical Information About Students ===");
         System.out.println("1. 10 students with the most delays in returning books");
-        System.out.println("4.Exit");
+        System.out.println("2. view all student Loan History Info");
+        System.out.println("3.Exit");
         System.out.print("Please enter your choice: ");
-        int choice = menuHandler.getIntInput(1, 4);
+        int choice = menuHandler.getIntInput(1, 3);
         switch(choice){
             case 1:
-                System.out.println("10 students with the most");
+                System.out.println("10 students with the most delays in returning books");
                 List<Student> studentTemps = new ArrayList<>(studentManager.getStudents());
 
                 studentTemps.removeIf(s -> s.getLoanBooks().isEmpty());
@@ -729,12 +730,11 @@ public class LibrarySystem implements Serializable {
                 break;
 
             case 2:
+                studentLoanHistoryInfo();
                 break;
 
             case 3:
-                break;
-
-            case 4:
+                System.out.println("Exiting.");
                 break;
 
             default:
