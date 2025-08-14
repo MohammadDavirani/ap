@@ -1,7 +1,6 @@
 package Projects.finalproject;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Scanner;
 
 public class MenuHandler implements Serializable {
