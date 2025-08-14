@@ -89,7 +89,6 @@ public class LibrarySystem implements Serializable {
         author = scanner.nextLine();
         System.out.println("enter year of publishing:");
         yearOfPublishing = scanner.nextLine();
-
         bookManager.addBook(author,title,yearOfPublishing,exist);
     }
     public void editStudentInformation(Student student) {
