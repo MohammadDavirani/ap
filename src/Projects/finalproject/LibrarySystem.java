@@ -428,10 +428,10 @@ public class LibrarySystem implements Serializable {
 
                 student.addLoan(book, startDate, null);
 
-                System.out.println("The book with the specifications: "+book+" was activated \nfrom date "+startDate+" to date "+endDate+" \nfor student Id: "+student.getStudentId());
+                System.out.println("Book " + book.getTitle() + "\n has been issued to student " + student.getStudentId() + " \nfrom " + startDate + " to " + endDate);
                 student.setActiveRequests(false);
                 studentManager.getActiveRequests().remove(request);
-
+                book.setExist(false);
             } else {
                 System.out.println("No matching active request found.");
             }
@@ -458,7 +458,7 @@ public class LibrarySystem implements Serializable {
                 System.out.println("5. Exit");
                 System.out.print("Please enter your choice: ");
 
-                int choice = menuHandler.getIntInput(1, 8);
+                int choice = menuHandler.getIntInput(1, 5);
                 int totalBookLoan = student.getLoanBooks().size();
                 switch(choice){
                     case 1:
@@ -470,29 +470,36 @@ public class LibrarySystem implements Serializable {
                         break;
 
                     case 2:
-                        System.out.println("total number of loan books is : "+ totalBookLoan);
+                        System.out.println("Total number of books borrowed: "+student.getLoanBooks().size());
                         break;
 
                     case 3:
+                        long totalBookLoanNotReceived = student.getLoanBooks().stream()
+                                .filter(book -> book.getExist() == false)
+                                .count();
+
+                        System.out.println("total number of loan books is : "+ totalBookLoanNotReceived);
+                        break;
+
+                    case 4:
                         int totalUndeliveredBook = 0;
                         int size = Math.min(student.getLoanBooks().size(), student.getBorrowDate().size());
-
                         for (int i = 0; i < size; i++) {
                             Book book = student.getLoanBooks().get(i);
-                            LocalDate borrowDate = student.getBorrowDate().get(i);
+                            if(book.getExist() == true){
+                                LocalDate borrowDate = student.getBorrowDate().get(i);
+                                LocalDate returnDate = student.getReturnDate().get(i);
 
-                            long daysBetween = ChronoUnit.DAYS.between(borrowDate, LocalDate.now());
+                                long daysBetween = ChronoUnit.DAYS.between(borrowDate, returnDate);
 
-                            if (daysBetween > 20) {
-                                System.out.println(book + " - Borrowed " + daysBetween + " days ago");
-                                totalUndeliveredBook++;
+                                if (daysBetween >= 20) {
+                                    System.out.println(book + " - Borrowed " + daysBetween + " days ago");
+                                    totalUndeliveredBook++;
+                                }
                             }
                         }
 
                         System.out.println("Total undelivered books: " + totalUndeliveredBook);
-                        break;
-
-                    case 4:
                         break;
 
                     case 5:
