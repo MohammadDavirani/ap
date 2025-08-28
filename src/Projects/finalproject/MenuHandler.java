@@ -106,10 +106,11 @@ public class MenuHandler implements Serializable {
         System.out.println("2. View admin performance ");
         System.out.println("3. View statistical information about borrowed books ");
         System.out.println("4. view statistical information about students  ");
-        System.out.println("5. Exit");
+        System.out.println("5. count of admins  ");
+        System.out.println("6. Exit");
         System.out.print("Please enter your choice: ");
 
-        int choice = getIntInput(1, 5);
+        int choice = getIntInput(1, 6);
 
         switch(choice){
             case 1:
@@ -129,6 +130,10 @@ public class MenuHandler implements Serializable {
                 break;
 
             case 5:
+                librarySystem.countOfAdmins();
+                break;
+
+            case 6:
                 System.out.println("Exiting");
                 break;
 
@@ -168,8 +173,8 @@ public class MenuHandler implements Serializable {
 
         currentAdminUser = librarySystem.authenticateAdmin(username,password);
 
-        if (currentUser != null) {
-            System.out.println("Login successful! Welcome, " + currentUser.getName());
+        if (currentAdminUser != null) {
+            System.out.println("Login successful! Welcome, " + currentAdminUser.getUsername());
             displayLoggedInAdminMenu();
         } else {
             System.out.println("Invalid username or password. Please try again.");
@@ -186,10 +191,11 @@ public class MenuHandler implements Serializable {
             System.out.println("5. View student loan history information");
             System.out.println("6. Activating and deactivating a student");
             System.out.println("7. Receiving a borrowed book");
-            System.out.println("8. Logout");
+            System.out.println("8. count of Books");
+            System.out.println("9. Logout");
             System.out.print("Please enter your choice: ");
 
-            int choice = getIntInput(1, 8);
+            int choice = getIntInput(1, 9);
 
             switch (choice) {
                 case 1:
@@ -215,7 +221,10 @@ public class MenuHandler implements Serializable {
                     librarySystem.receivingBooks(currentAdminUser);
                     break;
                 case 8:
-                    currentUser = null;
+                    librarySystem.countofBooks();
+                    break;
+                case 9:
+                    currentAdminUser = null;
                     System.out.println("Logged out successfully.");
                     return;
                 default:
@@ -259,7 +268,7 @@ public class MenuHandler implements Serializable {
                     librarySystem.displayAvailableBooks();
                     break;
                 case 6:
-                    librarySystem.searchingBook();
+                    System.out.println(librarySystem.searchingBook());
                     break;
 
                 case 7:

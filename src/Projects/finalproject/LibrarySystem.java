@@ -210,60 +210,65 @@ public class LibrarySystem implements Serializable {
     }
 
     public Book searchingBook(){
-        System.out.println("== searching book box ==");
-        System.out.println("1.search by title and author");
-        System.out.println("2.search by title and year Of publishing");
-        System.out.println("3.search by author and year of publishing");
-        System.out.println("4.Exit");
-        System.out.print("Please enter your choice: ");
-        int choice = menuHandler.getIntInput(1, 4);
+        if(!bookManager.getBooks().isEmpty()){
+            System.out.println("== searching book box ==");
+            System.out.println("1.search by title and author");
+            System.out.println("2.search by title and year Of publishing");
+            System.out.println("3.search by author and year of publishing");
+            System.out.println("4.Exit");
+            System.out.print("Please enter your choice: ");
+            int choice = menuHandler.getIntInput(1, 4);
 
-        String title,author,yearOfPublishing;
+            String title,author,yearOfPublishing;
 
-        switch(choice){
-            case 1:
-                System.out.println("enter title:");
-                title = scanner.nextLine();
+            switch(choice){
+                case 1:
+                    System.out.println("enter title:");
+                    title = scanner.nextLine();
 
-                System.out.println("enter author:");
-                author = scanner.nextLine();
+                    System.out.println("enter author:");
+                    author = scanner.nextLine();
 
-                return bookManager.getBooks().stream()
-                        .filter(s -> s.getTitle().equalsIgnoreCase(title.trim()) && s.getAuthor().equalsIgnoreCase(author.trim()))
-                        .findFirst()
-                        .orElse(null);
+                    return bookManager.getBooks().stream()
+                            .filter(s -> s.getTitle().equalsIgnoreCase(title.trim()) && s.getAuthor().equalsIgnoreCase(author.trim()))
+                            .findFirst()
+                            .orElse(null);
 
-            case 2:
-                System.out.println("enter title");
-                title = scanner.nextLine();
+                case 2:
+                    System.out.println("enter title");
+                    title = scanner.nextLine();
 
-                System.out.println("enter year Of Publishing:");
-                yearOfPublishing = scanner.nextLine();
+                    System.out.println("enter year Of Publishing:");
+                    yearOfPublishing = scanner.nextLine();
 
-                return bookManager.getBooks().stream()
-                        .filter(s -> s.getTitle().equalsIgnoreCase(title.trim()) && s.getYearOfPublishing().equalsIgnoreCase(yearOfPublishing.trim()))
-                        .findFirst()
-                        .orElse(null);
+                    return bookManager.getBooks().stream()
+                            .filter(s -> s.getTitle().equalsIgnoreCase(title.trim()) && s.getYearOfPublishing().equalsIgnoreCase(yearOfPublishing.trim()))
+                            .findFirst()
+                            .orElse(null);
 
-            case 3:
-                System.out.println("enter year Of Publishing:");
-                yearOfPublishing = scanner.nextLine();
+                case 3:
+                    System.out.println("enter year Of Publishing:");
+                    yearOfPublishing = scanner.nextLine();
 
-                System.out.println("enter author:");
-                author = scanner.nextLine();
+                    System.out.println("enter author:");
+                    author = scanner.nextLine();
 
-                return bookManager.getBooks().stream()
-                        .filter(s -> s.getAuthor().equalsIgnoreCase(author.trim()) && s.getYearOfPublishing().equalsIgnoreCase(yearOfPublishing.trim()))
-                        .findFirst()
-                        .orElse(null);
+                    return bookManager.getBooks().stream()
+                            .filter(s -> s.getAuthor().equalsIgnoreCase(author.trim()) && s.getYearOfPublishing().equalsIgnoreCase(yearOfPublishing.trim()))
+                            .findFirst()
+                            .orElse(null);
 
-            case 4:
-                System.out.println("exiting");
-                break;
+                case 4:
+                    System.out.println("exiting");
+                    break;
 
 
-            default:
-                System.out.println("Invalid option! Please try again.");
+                default:
+                    System.out.println("Invalid option! Please try again.");
+            }
+        }
+        else{
+            System.out.println("There is no book for search.");
         }
         return null;
     }
@@ -277,40 +282,45 @@ public class LibrarySystem implements Serializable {
     }
     public void editBookInformation(){
         Book editBook = searchingBook();
-        System.out.println("=== Edit Book Information Box ===");
-        System.out.println("1. edit title");
-        System.out.println("2. edit author");
-        System.out.println("3. edit year of publishing");
-        System.out.println("4. Exit");
-        System.out.print("Please enter your choice: ");
+        if(editBook !=null ){
+            System.out.println("=== Edit Book Information Box ===");
+            System.out.println("1. edit title");
+            System.out.println("2. edit author");
+            System.out.println("3. edit year of publishing");
+            System.out.println("4. Exit");
+            System.out.print("Please enter your choice: ");
 
-        int choice = menuHandler.getIntInput(1, 4);
-        switch(choice){
-            case 1:
-                System.out.println("enter new title: ");
-                editBook.setTitle(scanner.nextLine());
-                System.out.println("Book information editing successfully.");
-                break;
+            int choice = menuHandler.getIntInput(1, 4);
+            switch(choice){
+                case 1:
+                    System.out.println("enter new title: ");
+                    editBook.setTitle(scanner.nextLine());
+                    System.out.println("Book information editing successfully.");
+                    break;
 
-            case 2:
-                System.out.println("enter new author: ");
-                editBook.setAuthor(scanner.nextLine());
-                System.out.println("Book information editing successfully.");
-                break;
+                case 2:
+                    System.out.println("enter new author: ");
+                    editBook.setAuthor(scanner.nextLine());
+                    System.out.println("Book information editing successfully.");
+                    break;
 
-            case 3:
-                System.out.println("enter new year of publishing: ");
-                editBook.setYearOfPublishing(scanner.nextLine());
-                System.out.println("Book information editing successfully.");
-                break;
+                case 3:
+                    System.out.println("enter new year of publishing: ");
+                    editBook.setYearOfPublishing(scanner.nextLine());
+                    System.out.println("Book information editing successfully.");
+                    break;
 
-            case 4:
-                System.out.println("Exiting");
-                break;
+                case 4:
+                    System.out.println("Exiting");
+                    break;
 
-            default:
-                System.out.println("Invalid option! Please try again.");
+                default:
+                    System.out.println("Invalid option! Please try again.");
+            }
+        }else{
+            System.out.println("Invalid option");
         }
+
     }
     public void checkingRequest(Admin currentAdminUser) {
         List<BooksRequested> list = studentManager.getBooksRequested().stream()
@@ -740,6 +750,13 @@ public class LibrarySystem implements Serializable {
             default:
                 System.out.println("Invalid option! Please try again.");
         }
+    }
+    public void countofBooks(){
+        System.out.println("book count is: " + bookManager.getBooks().size());
+    }
+
+    public void countOfAdmins(){
+        System.out.println("total admin count : " + adminManager.getAdmins().size());
     }
     //--------------------------------------------------------------------
     public static void main(String[] args) {

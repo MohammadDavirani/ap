@@ -6,6 +6,9 @@ public class Book implements Serializable {
     private String author;
     private String title;
     private String yearOfPublishing;
+
+
+
     private boolean exist;
 
     public Book(String author, String title, String yearOfPublishing, boolean exist){
@@ -43,7 +46,6 @@ public class Book implements Serializable {
     public void setExist(boolean exist) {
         this.exist = exist;
     }
-
     @Override
     public String toString() {
         return "Book{" +

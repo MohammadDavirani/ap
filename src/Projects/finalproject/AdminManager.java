@@ -40,4 +40,11 @@ public class AdminManager implements Serializable {
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public String toString() {
+        return "AdminManager{" +
+                "admins=" + admins +
+                '}';
+    }
 }

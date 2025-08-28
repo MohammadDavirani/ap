@@ -105,6 +105,7 @@ public class Student implements Serializable {
         this.borrowDate.add(borrowDate);
         this.returnDate.add(returnDate);
     }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -112,6 +113,13 @@ public class Student implements Serializable {
                 ", studentId='" + studentId + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", borrowRequest=" + borrowRequest +
+                ", returnRequest=" + returnRequest +
+                ", activeRequests=" + activeRequests +
+                ", loanBooks=" + loanBooks +
+                ", borrowDate=" + borrowDate +
+                ", returnDate=" + returnDate +
+                ", active=" + active +
                 '}';
     }
 }
