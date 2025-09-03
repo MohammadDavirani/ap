@@ -595,6 +595,12 @@ public class LibrarySystem implements Serializable {
                 requested.getBook().setExist(true);
                 requested.getStudent().setReturnRequest(false);
 
+                Book book = getBooks().stream()
+                                .filter(s->s.getTitle() == requested.getBook().getTitle() && s.getAuthor() == requested.getBook().getAuthor())
+                                        .findFirst()
+                                                .orElse(null);
+                book.setExist(true);
+
                 currentAdminUser.setNumberOfBooksReceived(
                         currentAdminUser.getNumberOfBooksReceived() + 1
                 );
