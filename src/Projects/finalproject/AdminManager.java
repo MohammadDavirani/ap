@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminManager implements Serializable {
+public class AdminManager implements Serializable,CommonMethods {
     private List<Admin> admins;
 
     public AdminManager(){
@@ -30,7 +30,8 @@ public class AdminManager implements Serializable {
         System.out.println("Admin registration completed successfully.");
     }
 
-    private boolean isUsernameTaken(String username) {
+    @Override
+    public boolean isUsernameTaken(String username) {
         return admins.stream().anyMatch(s -> s.getUsername().equals(username));
     }
 

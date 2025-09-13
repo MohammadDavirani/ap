@@ -2,26 +2,23 @@ package Projects.finalproject;
 
 import java.io.Serializable;
 
-public class Admin implements Serializable {
-    private String username;
-    private String password;
+public class Admin extends Person implements Serializable {
     private int numberOfBooksRegistered;
     private int numberOfBooksLoaned;
     private int numberOfBooksReceived;
 
     public Admin(String username, String password){
-        this.username = username;
-        this.password = password;
+        super(username,password);
         this.numberOfBooksRegistered = 0;
         this.numberOfBooksLoaned = 0;
         this.numberOfBooksReceived =0;
     }
 
     public String getUsername() {
-        return username;
+        return super.getUsername();
     }
     public String getPassword() {
-        return password;
+        return super.getPassword();
     }
     public int getNumberOfBooksRegistered() {
         return numberOfBooksRegistered;
@@ -45,17 +42,17 @@ public class Admin implements Serializable {
         this.numberOfBooksRegistered = numberOfBooksRegistered;
     }
     public void setUsername(String username) {
-        this.username = username;
+        super.setUsername(username);
     }
     public void setPassword(String password) {
-        this.password = password;
+        super.setPassword(password);
     }
 
     @Override
     public String toString() {
         return "Admin{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                "username='" + super.getUsername() + '\'' +
+                ", password='" + super.getPassword() + '\'' +
                 ", numberOfBooksRegistered=" + numberOfBooksRegistered +
                 ", numberOfBooksLoaned=" + numberOfBooksLoaned +
                 ", numberOfBooksReceived=" + numberOfBooksReceived +

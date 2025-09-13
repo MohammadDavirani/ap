@@ -5,11 +5,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Student implements Serializable {
+public class Student extends Person implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String name;
     private String studentId;
-    private String username;
-    private String password;
     private boolean borrowRequest;
     private boolean returnRequest;
     private boolean activeRequests;
@@ -19,10 +18,9 @@ public class Student implements Serializable {
     private boolean active;
 
     public Student(String name, String studentId, String username, String password ,boolean borrowRequest, boolean activeReq,boolean active,boolean returnRequest) {
+        super(username,password);
         this.name = name;
         this.studentId = studentId;
-        this.username = username;
-        this.password = password;
         this.borrowRequest = borrowRequest;
         this.activeRequests = activeReq;
         this.loanBooks = new ArrayList<>();
@@ -54,10 +52,10 @@ public class Student implements Serializable {
         return studentId;
     }
     public String getUsername() {
-        return username;
+        return super.getUsername();
     }
     public String getPassword() {
-        return password;
+        return super.getPassword();
     }
     public boolean isBorrowRequest() {
         return borrowRequest;
@@ -91,10 +89,10 @@ public class Student implements Serializable {
         this.studentId = studentId;
     }
     public void setUsername(String username) {
-        this.username = username;
+        super.setUsername(username);
     }
     public void setPassword(String password) {
-        this.password = password;
+        super.setPassword(password);
     }
     public void setBorrowRequest(boolean borrowRequest) {
         this.borrowRequest = borrowRequest;
@@ -111,8 +109,8 @@ public class Student implements Serializable {
         return "Student{" +
                 "name='" + name + '\'' +
                 ", studentId='" + studentId + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                ", username='" + super.getUsername() + '\'' +
+                ", password='" + super.getPassword() + '\'' +
                 ", borrowRequest=" + borrowRequest +
                 ", returnRequest=" + returnRequest +
                 ", activeRequests=" + activeRequests +

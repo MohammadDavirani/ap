@@ -300,8 +300,9 @@ public class MenuHandler implements Serializable {
                 break;
 
             case 2:
-                if(librarySystem.searchWithTitle()!=null){
-                    System.out.println(librarySystem.searchWithTitle());
+                Book book = librarySystem.searchWithTitle();
+                if(book!=null){
+                    System.out.println(book);
                 }
                 else{
                     System.out.println("The title entered does not exist.");

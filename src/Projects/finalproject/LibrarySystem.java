@@ -201,9 +201,14 @@ public class LibrarySystem implements Serializable {
         }
     }
     public void displayAvailableBooks() {
-        bookManager.getBooks().stream().
-                filter(Book::getExist).
-                forEach(System.out::println);
+        if(!bookManager.getBooks().isEmpty()){
+            bookManager.getBooks().stream().
+                    filter(Book::getExist).
+                    forEach(System.out::println);
+        }else{
+            System.out.println("No Books have registered yet.");
+        }
+
     }
     public void start() {
         menuHandler.displayMainMenu();
