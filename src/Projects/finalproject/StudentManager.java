@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentManager implements Serializable {
+public class StudentManager implements Serializable,CommonMethods {
     private List<Student> students;
     private List<BooksRequested> booksRequested;
     private List<ReturnBooksRequested> returnBooksRequested;
@@ -89,7 +89,8 @@ public class StudentManager implements Serializable {
             System.out.println(student);
         }
     }
-    private boolean isUsernameTaken(String username) {
+    @Override
+    public boolean isUsernameTaken(String username) {
         return students.stream().anyMatch(s -> s.getUsername().equals(username));
     }
     public int getStudentCount() {
